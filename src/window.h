@@ -6,14 +6,15 @@
 class Window
 {
 public:
-    Window();
     ~Window();
     
     static Window Create(LPCWSTR name);
     bool Valid();
     HWND GetHandle();
     void Poll();
+    bool Update();
 private:
+    Window();
     HWND hWnd;
     MSG msg;
 };

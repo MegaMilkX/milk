@@ -17,6 +17,8 @@ LRESULT CALLBACK InputWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     default:
         return CallWindowProc(OldWndProc, hWnd, msg, wParam, lParam);
     }
+    //return DefWindowProc(hWnd, msg, wParam, lParam);
+    //return CallWindowProc(OldWndProc, hWnd, msg, wParam, lParam);
     return 0;
 }
 
@@ -28,14 +30,15 @@ bool InputInit(HWND hWnd)
         return false;
     
     // Initizlize raw input
+    
     rid[0].usUsagePage = 0x01;
     rid[0].usUsage = RID_MOUSE;
-    rid[0].dwFlags = RIDEV_NOLEGACY;
+    rid[0].dwFlags = 0;//RIDEV_NOLEGACY;
     rid[0].hwndTarget = hWnd;
     
     rid[1].usUsagePage = 0x01;
     rid[1].usUsage = RID_KEYBOARD;
-    rid[1].dwFlags = RIDEV_NOLEGACY;
+    rid[1].dwFlags = 0;
     rid[1].hwndTarget = hWnd;
     
     if(!RegisterRawInputDevices(rid, RID_COUNT, sizeof(RAWINPUTDEVICE)))

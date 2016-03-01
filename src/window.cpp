@@ -18,9 +18,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-Window::Window()
+Window::Window() : hWnd(0), msg({0})
 {
-    msg.message = WM_QUIT;
+
 }
 Window::~Window(){}
     
@@ -90,4 +90,17 @@ void Window::Poll()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+}
+
+bool Window::Update()
+{
+    while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+        
+        if(msg.message == WM_QUIT)
+            return false;
+    }
+    return true;
 }
