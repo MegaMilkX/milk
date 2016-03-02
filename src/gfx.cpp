@@ -5,7 +5,9 @@
 HDC deviceContext;
 HGLRC context;
 
-bool GFXInit(HWND hWnd)
+GFXTarget* rootRenderTarget;
+
+GFXTarget* GFXInit(HWND hWnd)
 {
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -22,17 +24,17 @@ bool GFXInit(HWND hWnd)
     int pixelFormat = ChoosePixelFormat(deviceContext, &pfd);
     
     if(!pixelFormat)
-        return false;
+        return 0;
         
     if(!SetPixelFormat(deviceContext, pixelFormat, &pfd))
-        return false;
+        return 0;
     
     HGLRC renderingContext = wglCreateContext(deviceContext);
     wglMakeCurrent(deviceContext, renderingContext);
     
     WGLEXTLoadFunctions();
     if(!wglCreateContextAttribsARB)
-        return false;
+        return 0;
     
     int attr[] =
     {
@@ -57,11 +59,14 @@ bool GFXInit(HWND hWnd)
     glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
     glGetIntegerv(GL_MINOR_VERSION, &version[1]);
     
+    rootRenderTarget = GFXTarget::Create(); //Default OpenGL framebuffer is 0 and we can't change it
+                                                //We don't actually need HWND for this, whatever
+    
     std::cout << "OpenGL v" << version[0] << "." << version[1] << " ready.\n";
     
     glClearColor (0.0f, 0.0f, 0.0f, 0.0);
     
-    return true;
+    return rootRenderTarget;
 }
 
 void GFXRender()
@@ -75,4 +80,9 @@ void GFXCleanup()
 {
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext(context);
+}
+
+GFXTarget* GFXGetRootTarget()
+{
+    return rootRenderTarget;
 }

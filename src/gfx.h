@@ -4,8 +4,11 @@
 #include <windows.h>
 #include "glextutil.h"
 
-bool GFXInit(HWND hWnd);
-void GFXRender();
-void GFXCleanup();
+#include "gfxcamera.h"
+#include "gfxtarget.h"
+
+GFXTarget*  GFXInit(HWND hWnd);
+void        GFXRender();
+void        GFXCleanup();
 
 #endif

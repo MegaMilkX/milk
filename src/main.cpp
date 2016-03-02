@@ -1,3 +1,4 @@
+#include "scene.h"
 #include "gfx.h"
 #include "input.h"
 
@@ -12,66 +13,47 @@
 //STG = stage
 //SCN = scene
 //DAT = filesystem
+//PHY - physics
 
-class Scene;
+Window window;
+GFXTarget* gfxTarget;
 
-class Node
+bool Init()
 {
-public:
-    Node(){}
-    ~Node(){}
-    Node Create(Scene scene){ return Node(); }
-};
+    window = Window::Create(L"Cryptic", 1280, 720);
+    if(!InputInit(window.GetHandle()))
+        std::cout << "Input initialization fucked up\n";
+    gfxTarget = GFXInit(window.GetHandle());
+    if(!gfxTarget)
+    {
+        std::cout << "GFX initialization fucked up\n";
+        return false;
+    }
+    
+    return true;
+}
 
-class Scene
+void Cleanup()
 {
-public:
-    Scene Create(){ return Scene(); }
-};
-
-class Component;
-class GFXCamera
-{
-public:
-    GFXCamera Create(Scene scene){ return Node::Create(scene).AddComponent<GFXCamera>(); }
-};
+    GFXCleanup();
+    InputCleanup();
+}
 
 int main()
 {
-    Window window = Window::Create(L"Cryptic");
-    if(!InputInit(window.GetHandle()))
-        std::cout << "Input initialization fucked up\n";
-    if(!GFXInit(window.GetHandle()))
-        std::cout << "GFX initialization fucked up\n";
-
+    Init();
+    
     Scene scene = Scene::Create();
-    
-    //Scene scene = Scene::Create();
-    //Camera cam = Camera::Create(scene);
-        
-    //GFXTarget screen = GFXTarget::Create(window);
-    
-    
-    //Load font file into memory
-    //void* font_data;
-    //size_t font_data_sz;
-    
-    //Rasterize
-    //FontMap fontmap = FontMap::Create(font_data, font_data_sz);
-    //fontmap.Rasterize(0, 256);
-    
-    //GFXScene scene = GFXScene::Create();
-    //GFXCamera::Create(scene, "MyCamera");
-    //GFXMesh::Create(scene, "box");
-    //GFXNode::Create(scene, "test").CreateComponent<GFXCamera>();
+    Node* node = Node::Create(&scene);
+    GFXCamera* cam = GFXCamera::Create(&scene);
+    //GFXMesh* cube = GFXMesh::CreateTeapot(1.0f);
+    //SFXSource* beep = SFXSource::Create(cube);
     
     while(window.Update())
     {
-        //window.Poll();
-        GFXRender();
+        gfxTarget->Render(cam);
     }
     
-    GFXCleanup();
-    InputCleanup();
+    Cleanup();
     return 0;
 }

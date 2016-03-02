@@ -34,8 +34,12 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /O2 ^
 /nologo ^
 ..\src\main.cpp ^
-..\src\gfx.cpp ^
+..\src\node.cpp ^
+..\src\scene.cpp ^
 ..\src\glextutil.cpp ^
+..\src\gfx.cpp ^
+..\src\gfxcamera.cpp ^
+..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
 /link ^

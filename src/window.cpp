@@ -24,7 +24,7 @@ Window::Window() : hWnd(0), msg({0})
 }
 Window::~Window(){}
     
-Window Window::Create(LPCWSTR name)
+Window Window::Create(LPCWSTR name, int w, int h)
 {
     Window window;
     
@@ -56,7 +56,7 @@ Window Window::Create(LPCWSTR name)
         name,
         name,
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
+        CW_USEDEFAULT, CW_USEDEFAULT, w, h,
         NULL, NULL, hInstance, NULL);
         
     if(hWnd == NULL)
