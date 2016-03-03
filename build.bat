@@ -33,6 +33,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /Gm- ^
 /O2 ^
 /nologo ^
+..\src\resource.res ^
 ..\src\main.cpp ^
 ..\src\node.cpp ^
 ..\src\scene.cpp ^
