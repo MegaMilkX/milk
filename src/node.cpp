@@ -2,12 +2,19 @@
 
 Node::~Node()
 {
-    std::set<Node*>::iterator it = children.begin();
-    for(it; it != children.end(); ++it)
+    std::set<Node*>::iterator children_it = children.begin();
+    for(children_it; children_it != children.end(); ++children_it)
     {
-        delete (*it);
+        delete (*children_it);
     }
     children.clear();
+    
+    std::map<int, Component*>::iterator comp_it = components.begin();
+    for(comp_it; comp_it != components.end(); ++comp_it)
+    {
+        delete comp_it->second;
+    }
+    components.clear();
 }
 
 Node* Node::Create(Node* parent)

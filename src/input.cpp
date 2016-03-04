@@ -4,8 +4,11 @@
 #define RID_MOUSE 0x02
 #define RID_KEYBOARD 0x06
 
+HWND targetWindow;
 WNDPROC OldWndProc;
 RAWINPUTDEVICE rid[RID_COUNT];
+
+bool showCursor = true;
 
 LRESULT CALLBACK InputWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -43,11 +46,32 @@ bool InputInit(HWND hWnd)
     
     if(!RegisterRawInputDevices(rid, RID_COUNT, sizeof(RAWINPUTDEVICE)))
         return false;
-    
+
+    targetWindow = hWnd;
+   
     return true;
 }
 
 void InputCleanup()
 {
     
+}
+
+void InputUpdate()
+{
+    if(!showCursor)
+    {
+        if(GetActiveWindow() == targetWindow)
+        {
+            RECT rect;
+            GetWindowRect(targetWindow, &rect);
+            SetCursorPos(rect.left + (rect.right - rect.left) * 0.5, rect.top + (rect.bottom - rect.top) * 0.5);
+        }
+    }
+}
+
+void InputShowCursor(bool show)
+{
+    showCursor = show;
+    ShowCursor(showCursor);
 }

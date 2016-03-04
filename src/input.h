@@ -5,5 +5,8 @@
 
 bool InputInit(HWND hWnd);
 void InputCleanup();
+void InputUpdate();
+
+void InputShowCursor(bool show);
 
 #endif

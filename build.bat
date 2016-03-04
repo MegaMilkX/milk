@@ -35,11 +35,13 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /nologo ^
 ..\src\resource.res ^
 ..\src\main.cpp ^
+..\src\transform.cpp ^
 ..\src\node.cpp ^
 ..\src\scene.cpp ^
 ..\src\glextutil.cpp ^
 ..\src\gfx.cpp ^
 ..\src\gfxcamera.cpp ^
+..\src\gfxmesh.cpp ^
 ..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^

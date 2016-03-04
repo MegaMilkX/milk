@@ -10,6 +10,8 @@ public:
     friend Node;
 protected:
     Component(){}
+    
+    Node* parent;
 };
 
 #endif

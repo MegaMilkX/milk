@@ -8,12 +8,12 @@ PRODUCTVERSION 1,0,0,0
   {
    VALUE "Comments", "Comments\000"
    VALUE "CompanyName", "MegaMilk\000"
-   VALUE "FileDescription", "File Description\000"
+   VALUE "FileDescription", "究極合体\000"
    VALUE "FileVersion", "1.0.0.0\000"
    VALUE "InternalName", "Suiseiseki\000"
    VALUE "LegalCopyright", "Fuck off\000"
    VALUE "LegalTrademarks", "\000"
-   VALUE "OriginalFilename", "Comet.exe\000"
+   VALUE "OriginalFilename", "game.exe\000"
    VALUE "ProductName", "TheGame\000"
    VALUE "ProductVersion", "1.0.0.0\000"
   }

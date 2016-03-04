@@ -31,6 +31,7 @@ T* Node::AddComponent()
         return 0;
         
     T* t = new T();
+    t->parent = this;
     components.insert(std::make_pair(TypeInfo<T>::GetId(), t));
     return t;
 }
