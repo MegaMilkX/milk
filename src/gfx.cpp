@@ -55,6 +55,9 @@ GFXTarget* GFXInit(HWND hWnd)
 		wglDeleteContext(renderingContext);
 		wglMakeCurrent(deviceContext, context);
     }
+    
+    GLEXTLoadFunctions();
+    
     int version[2];
     glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
     glGetIntegerv(GL_MINOR_VERSION, &version[1]);
@@ -64,7 +67,7 @@ GFXTarget* GFXInit(HWND hWnd)
     
     std::cout << "OpenGL v" << version[0] << "." << version[1] << " ready.\n";
     
-    glClearColor (0.0f, 0.0f, 0.0f, 0.0);
+    glClearColor (0.2f, 0.0f, 0.1f, 0.0f);
     
     return rootRenderTarget;
 }
@@ -78,6 +81,7 @@ void GFXRender()
 
 void GFXCleanup()
 {
+    //TODO: Get rid of rootRenderTarget
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext(context);
 }

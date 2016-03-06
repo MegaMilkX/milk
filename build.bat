@@ -1,7 +1,8 @@
 call "%VS120COMNTOOLS%..\..\VC\vcvarsall"
 
 mkdir build
-pushd build
+mkdir obj
+pushd obj
 cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /I F:\libs\SQLITE3\sqlite\H ^
 /I F:\milk\repos\ExcelFormat\include ^
@@ -35,6 +36,8 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /nologo ^
 ..\src\resource.res ^
 ..\src\main.cpp ^
+..\src\mempack.cpp ^
+..\src\data.cpp ^
 ..\src\transform.cpp ^
 ..\src\node.cpp ^
 ..\src\scene.cpp ^
@@ -46,7 +49,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
 /link ^
-/OUT:"game.exe" ^
+/OUT:"..\build\game.exe" ^
 kernel32.lib ^
 user32.lib ^
 gdi32.lib ^
