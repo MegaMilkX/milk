@@ -86,7 +86,7 @@ void GFXCleanup()
     wglDeleteContext(context);
 }
 
-GFXTarget* GFXGetRootTarget()
+void GFXSwapBuffers()
 {
-    return rootRenderTarget;
-}
+    SwapBuffers(deviceContext);
+};

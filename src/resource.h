@@ -4,7 +4,7 @@
 class Resource
 {
 public:
-    virtual ~Resource();
+    virtual ~Resource(){}
 private:
 };
 

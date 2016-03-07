@@ -45,59 +45,35 @@ void Cleanup()
     InputCleanup();
 }
 
-struct Attrib
-{
-    int elementCount;
-    int elementType;
-    size_t sz;
-};
-
 struct Vertex
 {
-    ATTRIB(float, 3, position);
-    ATTRIB(float, 3, normal);
-    ATTRIB(float, 4, color);
-    ATTRIB(float, 2, uv);
-    ATTRIB(float, 4, weigths);
-    ATTRIB(int, 4, bones);
-};
-
-struct Vertex
-{
-    vec3f position;
-    vec3f normal;
-    vec4f color;
-    vec2f uv;
-    vec4f weights;
-    vec4i bones;
-    static int attribCount;
-    static Attrib attribs[6];
-};
-int Vertex::attribCount = 6;
-Attrib Vertex::attribs[6] =
-{ { 3, GL_FLOAT, sizeof(vec3f) },
-  { 3, GL_FLOAT, sizeof(vec3f) },
-  { 4, GL_FLOAT, sizeof(vec4f) },
-  { 2, GL_FLOAT, sizeof(vec2f) },
-  { 4, GL_FLOAT, sizeof(vec4f) },
-  { 4, GL_INT, sizeof(vec4i) }
-};
-  
-std::vector<Attrib> vertexDesc = 
-{ { 3, float, position },
-  { 3, float, normal },
-  { 4, float, color },
-  { 2, float, uv },
-  { 4, float, weights },
-  { 4, int, bones }
+    VERTEX
+    (
+        (AttrPosition) position,
+        (AttrNormal) normal,
+        (AttrUV) uv
+    )
 };
 
 int main()
 {
     Init();
     
-    GFXMesh mesh(vertexDesc);
+    std::cout << type_to_gltype.size() << std::endl;
+    
+    std::vector<Vertex> vertices = {
+        { vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.2f, 0.0f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, -0.5f, 0.5f), vec3f(0.0f, 0.5f, 0.2f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, 0.5f, 0.5f), vec3f(0.2f, 0.0f, 0.5f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, 0.5f, 0.5f), vec3f(1.0f, 0.0f, 0.0f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, -0.5f, -0.5f), vec3f(0.0f, 1.0f, 0.0f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, -0.5f, -0.5f), vec3f(0.0f, 0.0f, 1.0f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, 0.5f, -0.5f), vec3f(0.0f, 1.0f, 0.0f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, 0.5f, -0.5f), vec3f(1.0f, 0.0f, 0.0f), vec2f(0.0f, 0.0f) } };
+    std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
     GFXMesh<Vertex> mymesh;
+    mymesh.SetVertices(vertices);
+    mymesh.SetIndices(indices);
     //Resource<GFXTexture2D> texture = Resource<GFXTexture2D>::Get("test.tga");
     
     Scene scene = Scene::Create();
@@ -108,8 +84,12 @@ int main()
     while(window.Update())
     {
         InputUpdate();
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        mymesh.Render();
+        GFXSwapBuffers();
         //cube->Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
-        gfxTarget->Render(cam);
+        //gfxTarget->Render(cam);
     }
     
     Cleanup();

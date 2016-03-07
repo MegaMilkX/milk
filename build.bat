@@ -44,6 +44,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\glextutil.cpp ^
 ..\src\gfx.cpp ^
 ..\src\gfxcamera.cpp ^
+..\src\geometrybuffer.cpp ^
 ..\src\gfxmesh.cpp ^
 ..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
