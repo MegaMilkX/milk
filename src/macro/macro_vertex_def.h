@@ -19,30 +19,31 @@ struct AttrInfo
 };
 
 #define VERTEX(...) \
-  static int attribCount() { return PP_NARGS(__VA_ARGS__); } \
-  template<typename T> \
-  void Set(T& value){} \
-  static AttrInfo getAttrInfo(int i) \
+    static int attribCount() { return PP_NARGS(__VA_ARGS__); } \
+    template<typename T> \
+    void Set(T& value){} \
+    static AttrInfo getAttrInfo(int i) \
     { \
-    switch (i) \
-      { \
-      FOR_EACH_ARG(CASE, __VA_ARGS__) \
-      } \
-      return AttrInfo(); \
+        AttrInfo attrInfo; \
+        switch (i) \
+        { \
+            FOR_EACH_ARG(CASE, __VA_ARGS__) \
+        } \
+        return attrInfo; \
     } \
     FOR_EACH_ARG(DEF, __VA_ARGS__)
 
-#define CASE(i, arg) case i: return STRIP(arg)##Info();
+#define CASE(i, arg) case i: attrInfo = STRIP(arg)##Info(); break;
 #define DEF(i, arg) PAIR(arg); \
-  template<> \
-  void Set(TYPEOF(arg)& value){ this->STRIP(arg) = value; } \
-  static AttrInfo STRIP(arg)##Info() \
-  { \
-  AttrInfo info; \
-  info.elemCount = TYPEOF(arg)::elemCount(); \
-  info.elemType = TYPEOF(arg)::elemType(); \
-  info.size = TYPEOF(arg)::size(); \
-  return info; \
-  }
+    template<> \
+    void Set(TYPEOF(arg)& value){ this->STRIP(arg) = value; } \
+    static AttrInfo STRIP(arg)##Info() \
+    { \
+        AttrInfo info; \
+        info.elemCount = TYPEOF(arg)::elemCount(); \
+        info.elemType = TYPEOF(arg)::elemType(); \
+        info.size = TYPEOF(arg)::size(); \
+        return info; \
+    }
 
 #endif
