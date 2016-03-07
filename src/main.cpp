@@ -27,6 +27,7 @@ bool Init()
     window = Window::Create(L"REDREDRED", 1280, 720);
     if(!InputInit(window.GetHandle()))
         std::cout << "Input initialization fucked up\n";
+    //TODO: Look into SetCapture and ClipCursor function
     //InputShowCursor(false);
     
     gfxTarget = GFXInit(window.GetHandle());
@@ -58,8 +59,6 @@ struct Vertex
 int main()
 {
     Init();
-    
-    std::cout << type_to_gltype.size() << std::endl;
     
     std::vector<Vertex> vertices = {
         { vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.2f, 0.0f), vec2f(0.0f, 0.0f) },
