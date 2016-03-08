@@ -43,12 +43,14 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\scene.cpp ^
 ..\src\glextutil.cpp ^
 ..\src\gfx.cpp ^
-..\src\gfxcamera.cpp ^
 ..\src\geometrybuffer.cpp ^
 ..\src\gfxmesh.cpp ^
+..\src\gfxshader.cpp ^
 ..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
+..\src\camera.cpp ^
+..\src\renderable.cpp ^
 /link ^
 /OUT:"..\build\game.exe" ^
 kernel32.lib ^

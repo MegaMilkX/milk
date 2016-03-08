@@ -2,7 +2,6 @@
 #define _GFXTARGET_H_
 
 #include "glextutil.h"
-#include "gfxcamera.h"
 
 #include <set>
 
@@ -11,7 +10,7 @@ class GFXTarget
 public:
     ~GFXTarget();
     
-    void Render(GFXCamera* cam);
+    void Clear();
     
     static GFXTarget* Create(GFXTarget* parent);
     //Creates default GFXTarget. Don't use

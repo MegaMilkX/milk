@@ -1,3 +1,5 @@
+#include "scene.h"
+
 #include "node.h"
 
 Node::~Node()
@@ -9,7 +11,7 @@ Node::~Node()
     }
     children.clear();
     
-    std::map<int, Component*>::iterator comp_it = components.begin();
+    std::map<int, Entity*>::iterator comp_it = components.begin();
     for(comp_it; comp_it != components.end(); ++comp_it)
     {
         delete comp_it->second;
@@ -23,4 +25,9 @@ Node* Node::Create(Node* parent)
     node->parent = parent;
     parent->children.insert(node);    
     return node;
+}
+
+void Node::AddEntityToRoot(int type, Entity* entity)
+{
+    GetRoot()->AddEntity(type, entity);
 }

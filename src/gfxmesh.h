@@ -16,7 +16,13 @@ template<typename T>
 class GFXMesh : public Resource
 {
 public:
-    GFXMesh(){ glGenVertexArrays(1, &vao); }
+    enum
+    {
+        STATIC = GL_STATIC_DRAW,
+        DYNAMIC = GL_DYNAMIC_DRAW
+    };
+    static GFXMesh Create(int usage = STATIC);
+    GFXMesh() : vao(0) {}
     void SetVertices(std::vector<T> vertices);
     void SetIndices(std::vector<unsigned short> indices);
     void Render()
@@ -24,6 +30,9 @@ public:
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, index_count, index_type, 0);
     }
+    
+    bool IsValid() { return vao; }
+    
 private:
     GLuint vao;
     GeometryBuffer vertex_buffer;
@@ -32,6 +41,14 @@ private:
     int index_count;
     unsigned int index_type;
 };
+
+template<typename T>
+GFXMesh<T> GFXMesh<T>::Create(int usage)
+{
+    GFXMesh<T> mesh;
+    glGenVertexArrays(1, &mesh.vao);
+    return mesh;
+}
 
 template<typename T>
 void GFXMesh<T>::SetVertices(std::vector<T> vertices)
@@ -61,6 +78,9 @@ void GFXMesh<T>::SetVertices(std::vector<T> vertices)
 template<typename T>
 void GFXMesh<T>::SetIndices(std::vector<unsigned short> indices)
 {
+    if(indices.size() == 0)
+        return;
+    
     glBindVertexArray(vao);
     index_buffer = GeometryBuffer::Create(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
     index_buffer.Data(indices.data(), sizeof(unsigned short) * indices.size());

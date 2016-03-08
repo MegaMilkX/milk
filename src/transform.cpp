@@ -52,6 +52,8 @@ void Transform::Rotate(float angle, vec3f axis, Space space)
         quat q = angleAxis(angle, axis);
         rotation = rotation * q;
     }
+    
+    rotation = ::normalize(rotation);
 }
 
 void Transform::Scale(float x, float y, float z)

@@ -5,40 +5,48 @@
 #include <map>
 
 #include "typeid.h"
-#include "component.h"
 
+#include "entity.h"
+
+#include "transform.h"
+
+class Scene;
 class Node
 {
 public:
     virtual ~Node();
     template<typename T>
-    T* AddComponent();
+    T* AddEntity();
     template<typename T>
-    T* GetComponent();
+    T* GetEntity();
+    
+    virtual Scene* GetRoot(){ return parent->GetRoot(); }
 
     static Node* Create(Node* parent);
 private:
+    void AddEntityToRoot(int type, Entity* entity);
+
     Node* parent;
     std::set<Node*> children;
-    
-    std::map<int, Component*> components;
+    std::map<int, Entity*> components;
 };
 
 template<typename T>
-T* Node::AddComponent()
+T* Node::AddEntity()
 {
     if(components.find(TypeInfo<T>::GetId()) != components.end())
         return 0;
         
     T* t = new T();
-    t->parent = this;
+    t->OnAttach(this);
     components.insert(std::make_pair(TypeInfo<T>::GetId(), t));
+    AddEntityToRoot(TypeInfo<T>::GetId(), t);
     return t;
 }
 template<typename T>
-T* Node::GetComponent()
+T* Node::GetEntity()
 {
-    std::map<int, Component*>::iterator it = components.find(TypeInfo<T>::GetId());
+    std::map<int, Entity*>::iterator it = components.find(TypeInfo<T>::GetId());
     if(it != components.end())
         return it->second;
     else

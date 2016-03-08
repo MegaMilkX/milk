@@ -11,3 +11,4 @@ std::map<int, int> type_to_gltype =
   { TypeInfo<unsigned int>::GetId(), GL_UNSIGNED_INT },
   { TypeInfo<float>::GetId(), GL_FLOAT },
   { TypeInfo<double>::GetId(), GL_DOUBLE } };
+  

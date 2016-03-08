@@ -67,7 +67,11 @@ GFXTarget* GFXInit(HWND hWnd)
     
     std::cout << "OpenGL v" << version[0] << "." << version[1] << " ready.\n";
     
-    glClearColor (0.2f, 0.0f, 0.1f, 0.0f);
+    //=======================================================
+    glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     
     return rootRenderTarget;
 }
