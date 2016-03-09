@@ -13,7 +13,8 @@ public:
     
     Scene* GetRoot(){ return this; }
     
-    void AddEntity(int type, Entity* entity);    
+    void AddEntity(int type, Entity* entity);
+    std::vector<Entity*>* GetEntityContainer(int type);
 private:
     Scene();
     

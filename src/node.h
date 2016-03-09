@@ -38,8 +38,8 @@ T* Node::AddEntity()
         return 0;
         
     T* t = new T();
-    t->OnAttach(this);
     components.insert(std::make_pair(TypeInfo<T>::GetId(), t));
+    t->OnAttach(this);
     AddEntityToRoot(TypeInfo<T>::GetId(), t);
     return t;
 }

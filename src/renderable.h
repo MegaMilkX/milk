@@ -11,6 +11,8 @@ public:
     
     void OnAttach(Node* parent);
     
+    void Render();
+    
     friend Node;
 private:
     Renderable(){}

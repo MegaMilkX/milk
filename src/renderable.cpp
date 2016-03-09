@@ -9,3 +9,8 @@ void Renderable::OnAttach(Node* parent)
 {
     Entity::OnAttach(parent);
 }
+
+void Renderable::Render()
+{
+    
+}

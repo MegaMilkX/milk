@@ -66,13 +66,13 @@ int main()
     Init();
     
     std::vector<Vertex> vertices = {
-        { vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.1f, 0.1f, 0.5f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, -0.5f, 0.5f), vec3f(0.1f, 0.1f, 0.5f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, 0.5f, 0.5f), vec3f(0.1f, 0.1f, 0.5f), vec2f(0.0f, 0.0f) },
-        { vec3f(-0.5f, 0.5f, 0.5f), vec3f(0.1f, 0.1f, 0.5f), vec2f(0.0f, 0.0f) },
-        { vec3f(-0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(-0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
         { vec3f(0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
+        { vec3f(0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
         { vec3f(-0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) } };
     std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
     GFXMesh<Vertex> mymesh = GFXMesh<Vertex>::Create(GFXMesh<Vertex>::STATIC);
@@ -83,9 +83,9 @@ int main()
     shader.Compile(GFXShader::VERTEX,
         R"(#version 450
 
-        in vec3 position;
-        in vec3 normal;
-        in vec2 uv;
+        layout(location = 0) in vec3 position;
+        layout(location = 1) in vec3 normal;
+        layout(location = 2) in vec2 uv;
 
         uniform mat4 model = mat4(1.0);
         uniform mat4 perspective = mat4(1.0);

@@ -21,6 +21,7 @@ private:
     Camera(){}
     
     Scene* scene;
+    std::vector<Entity*>* renderables;
 };
 
 #endif
