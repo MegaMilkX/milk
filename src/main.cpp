@@ -15,6 +15,8 @@
 #include "camera.h"
 #include "renderable.h"
 
+#include "resource.h"
+
 //GFX = graphics
 //SFX = sound effects
 //STG = stage
@@ -123,6 +125,10 @@ int main()
     //cube->SetMesh(Resource<GFXMesh<Vertex>>::Create(mymesh));
     //cube->SetShader(Resource<GFXShader>::Create(shader));
     //cam->Translate(0.0f, 0.7f, 2.0f);
+    
+    Resource<GFXMesh<Vertex>> mesh = Resource<GFXMesh<Vertex>>::Get("test.mesh");
+    Resource<GFXTexture2D> texture = Resource<GFXTexture2D>::Create("texture.png");
+    texture.Set();
 
     while(window.Update())
     {
