@@ -9,8 +9,7 @@ GFXTarget* rootRenderTarget;
 
 GFXTarget* GFXInit(HWND hWnd)
 {
-    PIXELFORMATDESCRIPTOR pfd;
-    memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
+    PIXELFORMATDESCRIPTOR pfd = { 0 };
     pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
     pfd.nVersion = 1;
     pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW;
@@ -34,26 +33,32 @@ GFXTarget* GFXInit(HWND hWnd)
     
     WGLEXTLoadFunctions();
     if(!wglCreateContextAttribsARB)
-        return 0;
-    
-    int attr[] =
     {
-        WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-        WGL_CONTEXT_MINOR_VERSION_ARB, 5,
-        WGL_CONTEXT_FLAGS_ARB, 0,
-        0
-    };
-    
-    HGLRC renderingContext3plus = wglCreateContextAttribsARB(deviceContext, 0, attr);
-    
-    if(!renderingContext3plus)
         context = renderingContext;
+    }
     else
     {
-        context = renderingContext3plus;
-        wglMakeCurrent(NULL,NULL);
-		wglDeleteContext(renderingContext);
-		wglMakeCurrent(deviceContext, context);
+        int attr[] =
+        {
+            WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+            WGL_CONTEXT_MINOR_VERSION_ARB, 5,
+            WGL_CONTEXT_FLAGS_ARB, 0,
+            0
+        };
+        
+        HGLRC renderingContext3plus = wglCreateContextAttribsARB(deviceContext, 0, attr);
+        
+        if(!renderingContext3plus)
+        {
+            context = renderingContext;
+        }
+        else
+        {
+            context = renderingContext3plus;
+            wglMakeCurrent(NULL,NULL);
+            wglDeleteContext(renderingContext);
+            wglMakeCurrent(deviceContext, context);
+        }
     }
     
     GLEXTLoadFunctions();
@@ -67,6 +72,8 @@ GFXTarget* GFXInit(HWND hWnd)
     
     std::cout << "OpenGL v" << version[0] << "." << version[1] << " ready.\n";
     
+    std::cout << "GLSL v" << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+    
     //=======================================================
     glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
     
@@ -74,13 +81,6 @@ GFXTarget* GFXInit(HWND hWnd)
     glDepthFunc(GL_LESS);
     
     return rootRenderTarget;
-}
-
-void GFXRender()
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    SwapBuffers(deviceContext);
 }
 
 void GFXCleanup()

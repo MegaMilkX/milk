@@ -9,7 +9,6 @@
 #include "gfxtarget.h"
 
 GFXTarget*  GFXInit(HWND hWnd);
-void        GFXRender();
 void        GFXCleanup();
 
 void        GFXSwapBuffers();
