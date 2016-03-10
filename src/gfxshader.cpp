@@ -1,3 +1,6 @@
+#include <vector>
+#include <iostream>
+
 #include "gfxshader.h"
 
 GFXShader GFXShader::Create()
@@ -16,6 +19,20 @@ void GFXShader::Compile(unsigned int type, std::string source)
     const char* c_str = source.c_str();
     glShaderSource(shaders[type], 1, &c_str, 0);
     glCompileShader(shaders[type]);
+    
+    // Check compilation status
+    
+    GLint Result = GL_FALSE;
+		int InfoLogLength;
+    
+		glGetShaderiv(shaders[type], GL_COMPILE_STATUS, &Result);
+		glGetShaderiv(shaders[type], GL_INFO_LOG_LENGTH, &InfoLogLength);
+		if (InfoLogLength > 1)
+		{
+			std::vector<char> ShaderErrorMessage(InfoLogLength + 1);
+			glGetShaderInfoLog(shaders[type], InfoLogLength, NULL, &ShaderErrorMessage[0]);
+			std::cout <<  &ShaderErrorMessage[0] << "\n";
+		}
 }
 
 void GFXShader::Link()
@@ -30,6 +47,18 @@ void GFXShader::Link()
         glAttachShader(program, it->second);
         
     glLinkProgram(program);
+    
+    // Check the program
+    GLint Result = GL_FALSE;
+		int InfoLogLength;
+    
+		glGetProgramiv(program, GL_LINK_STATUS, &Result);
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &InfoLogLength);
+		if (InfoLogLength > 0){
+			std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
+			glGetProgramInfoLog(program, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+			std::cout << &ProgramErrorMessage[0] << "\n";
+		}
 }
 
 void GFXShader::Use()
