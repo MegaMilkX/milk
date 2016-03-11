@@ -14,7 +14,6 @@ public:
     static void Free(std::string name);
     static void FreeAll();
     
-    T& operator*();
     T* operator->();
 private:
     Resource(){}
@@ -40,7 +39,7 @@ private:
     
     class AutoUnloader
     { public: ~AutoUnloader(){ Resource<T>::FreeAll(); } };
-    AutoUnloader unloader;
+    static AutoUnloader unloader;
 };
 
 template<typename T>
@@ -51,6 +50,8 @@ template<typename T>
 unsigned int Resource<T>::next_magic = 0;
 template<typename T>
 std::map<std::string, Resource<T>> Resource<T>::handles;
+template<typename T>
+Resource<T>::AutoUnloader Resource<T>::unloader;
 
 template<typename T>
 Resource<T> Resource<T>::Get(std::string name)
@@ -101,12 +102,6 @@ void Resource<T>::Free(std::string name)
 
 template<typename T>
 void Resource<T>::FreeAll()
-{
-    
-}
-
-template<typename T>
-T& Resource<T>::operator*()
 {
     
 }
