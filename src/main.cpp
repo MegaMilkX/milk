@@ -117,7 +117,6 @@ int main()
     Transform camera_transform;
     camera_transform.Translate(0.0f, -0.7f, -2.0f);
     Transform transform;
-    //Resource<GFXTexture2D> texture = Resource<GFXTexture2D>::Get("test.tga");
     
     Scene scene = Scene::Create();
     Camera* cam = Camera::Create(&scene);
