@@ -126,8 +126,8 @@ int main()
     //cube->SetShader(Resource<GFXShader>::Create(shader));
     //cam->Translate(0.0f, 0.7f, 2.0f);
     
-    Resource<GFXMesh<Vertex>> mesh = Resource<GFXMesh<Vertex>>::Get("test.mesh");
-    Resource<GFXTexture2D> texture = Resource<GFXTexture2D>::Create("texture.png");
+    Data<GFXMesh<Vertex>> mesh = Resource<GFXMesh<Vertex>>::Get("test.mesh");
+    Data<GFXTexture2D> texture = Resource<GFXTexture2D>::Create("texture.png");
     texture.Set();
 
     while(window.Update())
