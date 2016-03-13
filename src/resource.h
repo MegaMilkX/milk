@@ -21,7 +21,6 @@ private:
     static bool ResourceExists(std::string name)
     { return handles.find(name) != handles.end(); }
 
-    
     union
     {
         struct
@@ -51,7 +50,7 @@ unsigned int Resource<T>::next_magic = 0;
 template<typename T>
 std::map<std::string, Resource<T>> Resource<T>::handles;
 template<typename T>
-Resource<T>::AutoUnloader Resource<T>::unloader;
+typename Resource<T>::AutoUnloader Resource<T>::unloader;
 
 template<typename T>
 Resource<T> Resource<T>::Get(std::string name)
@@ -62,7 +61,9 @@ Resource<T> Resource<T>::Get(std::string name)
     }
     else
     {
-        T value = AssetMgr::Load<T>(name);
+        File file = File::Open(name, File::READ);
+        T value = ResourceFactory::Create<T>(file);
+        
         data.push_back(value);
         next_magic++;
         Resource<T> resource = Resource<T>(data.size() - 1, next_magic);
