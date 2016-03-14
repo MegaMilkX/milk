@@ -94,11 +94,14 @@ int main()
 
     
     float time = 0;
+    DWORD t0 = 0, t1 = 0;
+    float dt = 0;
     while(window.Update())
     {
+        t0 = t1;
         InputUpdate();
-        transform.Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
-        transform.Rotate(-0.005f, vec3f(1.0f, 0.0f, 0.0f));
+        transform.Rotate(1.0f * dt, vec3f(0.0f, 1.0f, 0.0f));
+        transform.Rotate(-0.5f * dt, vec3f(1.0f, 0.0f, 0.0f));
         shader.Uniform(std::string("perspective"), perspective);
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
@@ -113,7 +116,10 @@ int main()
         //GFXSwapBuffer();
         
         //cube->Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
+        t1 = timeGetTime();
+        dt = (t1 - t0) * 0.001f;
         time += 0.001f;
+        
     }
     
     shader.Free();

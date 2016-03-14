@@ -67,6 +67,7 @@ odbc32.lib ^
 odbccp32.lib ^
 opengl32.lib ^
 freetype26MT.lib ^
+winmm.lib ^
 /DEBUG ^
 /MACHINE:X86 ^
 /OPT:REF ^
