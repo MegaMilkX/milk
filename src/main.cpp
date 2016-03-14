@@ -83,7 +83,7 @@ int main()
     //cube->SetMesh(Resource<GFXMesh<Vertex>>::Create(mymesh));
     //cube->SetShader(Resource<GFXShader>::Create(shader));
     //cam->Translate(0.0f, 0.7f, 2.0f);
-    
+     
     //=======================================================
     // Mockups
     //=======================================================
