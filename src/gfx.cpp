@@ -4,7 +4,7 @@
 
 HDC deviceContext;
 HGLRC context;
-
+int contextVersion = 0;
 GFXTarget* rootRenderTarget;
 
 GFXTarget* GFXInit(HWND hWnd)
@@ -66,11 +66,11 @@ GFXTarget* GFXInit(HWND hWnd)
     int version[2];
     glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
     glGetIntegerv(GL_MINOR_VERSION, &version[1]);
-    
+    contextVersion = version[0] * 100 + version[1] * 10;
     rootRenderTarget = GFXTarget::Create(); //Default OpenGL framebuffer is 0 and we can't change it
                                                 //We don't actually need HWND for this, whatever
     
-    std::cout << "OpenGL v" << version[0] << "." << version[1] << " ready.\n";
+    std::cout << "OpenGL v" << GFXVersion() << " ready.\n";
     
     std::cout << "GLSL v" << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
     
@@ -94,3 +94,8 @@ void GFXSwapBuffers()
 {
     SwapBuffers(deviceContext);
 };
+
+int GFXVersion()
+{
+    return contextVersion;
+}

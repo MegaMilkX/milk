@@ -13,4 +13,6 @@ void        GFXCleanup();
 
 void        GFXSwapBuffers();
 
+int         GFXVersion();
+
 #endif
