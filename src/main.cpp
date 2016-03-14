@@ -1,5 +1,3 @@
-#include "data.h"
-
 #include "scene.h"
 #include "gfx.h"
 #include "input.h"
@@ -67,55 +65,16 @@ int main()
 {
     Init();
     
-    std::vector<Vertex> vertices = {
-        { vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(-0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(-0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f) },
-        { vec3f(-0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 0.0f) } };
-    std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
-    GFXMesh<Vertex> mymesh = GFXMesh<Vertex>::Create(GFXMesh<Vertex>::STATIC);
-    mymesh.SetVertices(vertices);
-    mymesh.SetIndices(indices);
+    File mesh_file = File::Open("data\\mesh.obj", File::READ);
+    GFXMesh<Vertex> mesh = GFXMesh<Vertex>::Create(mesh_file);
     
-    GFXShader shader;
-    shader.Compile(GFXShader::VERTEX,
-        R"(#version 450
-
-        layout(location = 0) in vec3 position;
-        layout(location = 1) in vec3 normal;
-        layout(location = 2) in vec2 uv;
-
-        uniform mat4 model = mat4(1.0);
-        uniform mat4 perspective = mat4(1.0);
-        uniform mat4 view = mat4(1.0);
-        uniform float time;    
-        out vec3 color;    
-
-        void main()
-        {
-            color = normal * ((sin(time) * 0.5) + 0.7);
-            gl_Position = perspective * view * model * vec4(position, 1.0);
-        })");
-    shader.Compile(GFXShader::PIXEL, 
-        R"(#version 450
-
-        out vec4 frag_color;
-        in vec3 color;        
-
-        void main()
-        {
-            frag_color = vec4(color, 1.0);
-        })");
-    shader.Link();
+    File shader_file = File::Open("data\\shader140.glsl", File::READ);
+    GFXShader shader = GFXShader::Create(shader_file);
     shader.Use();
     
     mat4f perspective = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
     Transform camera_transform;
-    camera_transform.Translate(0.0f, -0.7f, -2.0f);
+    camera_transform.Translate(0.0f, -0.0f, -2.0f);
     Transform transform;
     
     Scene scene = Scene::Create();
@@ -125,26 +84,31 @@ int main()
     //cube->SetShader(Resource<GFXShader>::Create(shader));
     //cam->Translate(0.0f, 0.7f, 2.0f);
     
-    Data<GFXMesh<Vertex>> mesh = Resource<GFXMesh<Vertex>>::Get("test.mesh");
-    Data<GFXTexture2D> texture = Resource<GFXTexture2D>::Create("texture.png");
-    texture.Set();
+    //=======================================================
+    // Mockups
+    //=======================================================
 
+    
+    float time = 0;
     while(window.Update())
     {
         InputUpdate();
-        transform.Rotate(0.01f, vec3f(0.3f, 0.7f, 0.0f));
+        transform.Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
+        transform.Rotate(-0.005f, vec3f(1.0f, 0.0f, 0.0f));
         shader.Uniform(std::string("perspective"), perspective);
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
+        shader.Uniform(std::string("time"), time);
         
         gfxTarget->Clear();
-        mymesh.Render();
+        mesh.Render();
         GFXSwapBuffers();
         
         //cam->Render(gfxTarget);
         //GFXSwapBuffer();
         
         //cube->Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
+        time += 0.001;
     }
     
     shader.Free();
