@@ -11,6 +11,7 @@
 
 #include "glextutil.h"
 #include "math3f.h"
+#include "filesystem\filesystem.h"
 
 class GFXShader
 {
@@ -25,6 +26,7 @@ public:
         TESS_EVALUATION = GL_TESS_EVALUATION_SHADER
     };
     static GFXShader Create();
+    static GFXShader Create(File file);
     GFXShader::GFXShader() : program(0){}
     void Compile(unsigned int type, std::string source);
     void Link();

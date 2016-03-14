@@ -1,11 +1,40 @@
 #include <vector>
 #include <iostream>
 
+#include "gfx.h"
+
 #include "gfxshader.h"
+
+std::map<int, int> glsl_version =
+{ { 200, 110 },
+  { 210, 120 },
+  { 300, 130 },
+  { 310, 140 },
+  { 320, 150 },
+  { 330, 330 },
+  { 400, 400 },
+  { 410, 410 },
+  { 420, 420 },
+  { 430, 430 },
+  { 440, 440 },
+  { 450, 450 } };
 
 GFXShader GFXShader::Create()
 {
     GFXShader shader;
+    return shader;
+}
+
+GFXShader GFXShader::Create(File file)
+{
+    GFXShader shader;
+    file.Seek(0, File::BEGIN);
+    unsigned int bytesRead;
+    void* data = file.Read(file.Size(), bytesRead);
+    std::string source((const char*)data, bytesRead);
+    shader.Compile(GFXShader::VERTEX, source);
+    shader.Compile(GFXShader::PIXEL, source);
+    shader.Link();
     return shader;
 }
 
@@ -15,6 +44,18 @@ void GFXShader::Compile(unsigned int type, std::string source)
         glDeleteShader(shaders[type]);
     
     shaders[type] = glCreateShader(type);
+    
+    int version = glsl_version[GFXVersion()];
+    
+    switch(type)
+    {
+    case VERTEX:
+        source = "#version " + std::to_string(version) + "\n#define _VERTEX_\n" + source;
+        break;
+    case PIXEL:
+        source = "#version " + std::to_string(version) + "\n#define _FRAGMENT_\n" + source;
+        break;
+    }
     
     const char* c_str = source.c_str();
     glShaderSource(shaders[type], 1, &c_str, 0);
