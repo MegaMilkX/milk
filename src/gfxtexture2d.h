@@ -1,13 +1,18 @@
 #ifndef _GFXTEXTURE2D_H_
 #define _GFXTEXTURE2D_H_
 
-#include "resource.h"
+#include "glextutil.h"
+#include "filesystem\filesystem.h"
 
-class GFXTexture2D : public Resource
+class GFXTexture2D
 {
 public:
-    GFXTexture2D(int width, int height, int format);
+    static GFXTexture2D Create();
+    static GFXTexture2D Create(File file);
+    
+    void Use(unsigned int layer = 0);
 private:
+  unsigned int buffer;
 };
 
 #endif

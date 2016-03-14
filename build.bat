@@ -45,6 +45,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\geometrybuffer.cpp ^
 ..\src\gfxmesh.cpp ^
 ..\src\gfxshader.cpp ^
+..\src\gfxtexture2d.cpp ^
 ..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^

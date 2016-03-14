@@ -5,6 +5,7 @@
 #include "glextutil.h"
 
 #include "gfxshader.h"
+#include "gfxtexture2d.h"
 #include "gfxmesh.h"
 #include "gfxtarget.h"
 
