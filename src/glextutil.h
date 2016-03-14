@@ -81,6 +81,12 @@ extern PFNGLUNIFORMMATRIX4X2FVPROC glUniformMatrix4x3fv;
 
 extern PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
 
+extern PFNGLTEXPARAMETERIIVPROC glTexParameterIiv;
+extern PFNGLTEXPARAMETERIUIVPROC glTexParameterIuiv;
+extern PFNGLGETTEXPARAMETERIIVPROC glGetTexParameterIiv;
+extern PFNGLGETTEXPARAMETERIUIVPROC glGetTexParameterIuiv;
+extern PFNGLACTIVETEXTUREPROC glActiveTexture;
+
 void WGLEXTLoadFunctions();
 void GLEXTLoadFunctions();
 
