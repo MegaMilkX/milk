@@ -10,6 +10,7 @@ uniform mat4 view = mat4(1.0);
 uniform float time = 0.0;
 
 out vec3 color;
+out vec2 uv_out;
 
 vec4 hsv_to_rgb(float h, float s, float v, float a)
 {
@@ -41,20 +42,25 @@ vec4 hsv_to_rgb(float h, float s, float v, float a)
 
 void main()
 {
-	gl_Position = perspective * view * model * vec4(position, 1.0);
+	vec4 pos = perspective * view * model * vec4(position, 1.0);
+	gl_Position = pos;
 	color = hsv_to_rgb(time, 1.0, 1.0, 1.0).xyz;
+	uv_out = normal.xy * 8.0;
+	uv_out = uv * 3.0;
 }
 
 #else
 #ifdef _FRAGMENT_
 	
 in vec3 color;
-
+in vec2 uv_out;
+uniform sampler2D tex;
 out vec4 frag_color;
 
 void main()
 {
-	frag_color = vec4(color, 1.0);
+	frag_color = texture(tex, uv_out) * color; //vec4(color, 1.0);
 }
+
 #endif
 #endif
