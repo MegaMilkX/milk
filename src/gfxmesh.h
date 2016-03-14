@@ -4,16 +4,17 @@
 #include <vector>
 #include <map>
 #include "glextutil.h"
-#include "resource.h"
 
 #include "geometrybuffer.h"
 
 #include "macro\macro_vertex_def.h"
 
+#include "filesystem\filesystem.h"
+
 extern std::map<int, int> type_to_gltype;
 
 template<typename T>
-class GFXMesh : public Resource
+class GFXMesh
 {
 public:
     enum
@@ -22,6 +23,7 @@ public:
         DYNAMIC = GL_DYNAMIC_DRAW
     };
     static GFXMesh Create(int usage = STATIC);
+    static GFXMesh Create(File file, int usage = STATIC);
     GFXMesh() : vao(0) {}
     void SetVertices(std::vector<T> vertices);
     void SetIndices(std::vector<unsigned short> indices);
@@ -47,6 +49,46 @@ GFXMesh<T> GFXMesh<T>::Create(int usage)
 {
     GFXMesh<T> mesh;
     glGenVertexArrays(1, &mesh.vao);
+    return mesh;
+}
+
+template<typename T>
+GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
+{
+    GFXMesh<T> mesh = Create(usage);
+    float rawverts[64] = 
+    {
+        -0.5f, -0.5f, 0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 0.0f 
+    };
+    std::vector<T> vertices;
+    
+    for(int i = 0; i < 8; ++i)
+    {
+        AttrPosition pos;
+        AttrNormal normal;
+        AttrUV uv;
+        pos.value.x = rawverts[0 + i * 8]; pos.value.y = rawverts[1 + i * 8]; pos.value.z = rawverts[2 + i * 8]; 
+        normal.value.x = rawverts[3 + i * 8]; normal.value.y = rawverts[4 + i * 8]; normal.value.z = rawverts[5 + i * 8];
+        uv.value.x = rawverts[6 + i * 8]; uv.value.y = rawverts[7 + i * 8];
+        T vert;
+        vert.Set(pos);
+        vert.Set(normal);
+        vert.Set(uv);
+        vertices.push_back(vert);
+    }
+    
+    std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
+    
+    mesh.SetVertices(vertices);
+    mesh.SetIndices(indices);
+    
     return mesh;
 }
 
