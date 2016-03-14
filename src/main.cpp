@@ -72,6 +72,10 @@ int main()
     GFXShader shader = GFXShader::Create(shader_file);
     shader.Use();
     
+    File texture_file = File::Open("data\\texture.png", File::READ);
+    GFXTexture2D texture = GFXTexture2D::Create(texture_file);
+    texture.Use(0);
+    
     mat4f perspective = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
     Transform camera_transform;
     camera_transform.Translate(0.0f, -0.0f, -2.0f);
@@ -99,6 +103,7 @@ int main()
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
         shader.Uniform(std::string("time"), time);
+        shader.Uniform(std::string("tex"), 0);
         
         gfxTarget->Clear();
         mesh.Render();
@@ -108,7 +113,7 @@ int main()
         //GFXSwapBuffer();
         
         //cube->Rotate(0.01f, vec3f(0.0f, 1.0f, 0.0f));
-        time += 0.001;
+        time += 0.001f;
     }
     
     shader.Free();
