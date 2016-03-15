@@ -2,10 +2,27 @@
 
 #include <iostream>
 
+WNDPROC GFXOldWndProc;
 HDC deviceContext;
 HGLRC context;
 int contextVersion = 0;
 GFXTarget* rootRenderTarget;
+
+LRESULT CALLBACK GFXWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    switch(msg)
+    {
+    case WM_SIZE:
+        glViewport(0,0, LOWORD(lParam), HIWORD(lParam));
+        //TODO: Trigger custom callback for user to be able to properly process window resizing
+        break;
+    default:
+        return CallWindowProc(GFXOldWndProc, hWnd, msg, wParam, lParam);
+    }
+    //return DefWindowProc(hWnd, msg, wParam, lParam);
+    //return CallWindowProc(GFXOldWndProc, hWnd, msg, wParam, lParam);
+    return 0;
+}
 
 GFXTarget* GFXInit(HWND hWnd)
 {
@@ -79,6 +96,10 @@ GFXTarget* GFXInit(HWND hWnd)
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    
+    GFXOldWndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)GFXWndProc);
+    if(!GFXOldWndProc)
+        return false;
     
     return rootRenderTarget;
 }
