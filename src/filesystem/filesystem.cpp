@@ -22,7 +22,7 @@ File File::Open(std::string path, File::MODE mode)
     return file;
 }
 
-void* File::Read(size_t sz, unsigned int& bytes_read)
+unsigned char* File::Read(size_t sz, unsigned int& bytes_read)
 {
     if (readBuffer.sz != 0)
     {

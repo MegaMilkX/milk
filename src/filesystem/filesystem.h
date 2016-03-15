@@ -27,7 +27,7 @@ public:
 
     static File Create(std::string path, File::MODE mode = READWRITE);
     static File Open(std::string path, MODE mode = READWRITE);
-    void* Read(size_t sz, unsigned int& bytes_read);
+    unsigned char* Read(size_t sz, unsigned int& bytes_read);
     void Write(void* data, size_t sz);
     void Seek(unsigned int dist, SEEKFROM from = BEGIN);
     void Close();
@@ -38,7 +38,7 @@ private:
         Buffer() : sz(0){}
         void Alloc(size_t sz)
         {
-            data = malloc(sz);
+            data = (unsigned char*)malloc(sz);
             this->sz = sz;
         }
         void Free()
@@ -46,7 +46,7 @@ private:
             free(data);
             this->sz = 0;
         }
-        void* data;
+        unsigned char* data;
         size_t sz;
     };
     Buffer readBuffer;
