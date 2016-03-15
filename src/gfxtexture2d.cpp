@@ -1,8 +1,10 @@
 #include "gfxtexture2d.h"
 
 #include <vector>
-
+#include <SOIL\SOIL.h>
 #include "math3f.h"
+
+#include <iostream>
 
 GFXTexture2D GFXTexture2D::Create()
 {
@@ -14,24 +16,50 @@ GFXTexture2D GFXTexture2D::Create()
 GFXTexture2D GFXTexture2D::Create(File file)
 {
     GFXTexture2D texture = GFXTexture2D::Create();
-    //float pixels[] = 
-    //{ 0.0f, 0.0f, 0.0f, 1.0f,   1.0f, 1.0f, 1.0f, 1.0f,
-    //  1.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f, 0.0f, 1.0f };
-    vec4f pixels[4096];
-    for(int i = 0; i < 4096; ++i)
-    {
-        pixels[i] = vec4f(rand()%1000 * 0.001f, rand()%1000 * 0.001f, rand()%1000 * 0.001f, 1.0f);
-    }
+    file.Seek(0, File::BEGIN);
+    unsigned int bytesRead;
+    unsigned char* data = file.Read(file.Size(), bytesRead);
+    if(!data || !bytesRead)
+        return texture;
     
+    int width, height, channels = 0;
+    int force_channels = 4;
+    
+    unsigned char* img = SOIL_load_image_from_memory(
+                                data, bytesRead,
+                                &width, &height, &channels,
+                                force_channels );
+                                
+    if(!img)
+        return texture;
+    
+    unsigned int format = 0;
+    switch( force_channels )
+    {
+    case 1:
+        format = GL_LUMINANCE;
+        break;
+    case 2:
+        format = GL_LUMINANCE_ALPHA;
+        break;
+    case 3:
+        format = GL_RGB;
+        break;
+    case 4:
+        format = GL_RGBA;
+        break;
+    }
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.buffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64, 0, GL_RGBA, GL_FLOAT, pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glGenerateMipmap(GL_TEXTURE_2D);
     
+    SOIL_free_image_data( img );
     return texture;
 }
 

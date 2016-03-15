@@ -80,6 +80,8 @@ int main()
     Transform camera_transform;
     camera_transform.Translate(0.0f, -0.0f, -2.0f);
     Transform transform;
+    Transform transform2;
+    transform2.Translate(0.0f, 1.2f, 0.0f);
     
     Scene scene = Scene::Create();
     Camera* cam = Camera::Create(&scene);
@@ -91,7 +93,8 @@ int main()
     //=======================================================
     // Mockups
     //=======================================================
-
+    
+    
     
     float time = 0;
     DWORD t0 = 0, t1 = 0;
@@ -102,6 +105,7 @@ int main()
         InputUpdate();
         transform.Rotate(1.0f * dt, vec3f(0.0f, 1.0f, 0.0f));
         transform.Rotate(-0.5f * dt, vec3f(1.0f, 0.0f, 0.0f));
+        
         shader.Uniform(std::string("perspective"), perspective);
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
@@ -109,6 +113,8 @@ int main()
         shader.Uniform(std::string("tex"), 0);
         
         gfxTarget->Clear();
+        mesh.Render();
+        shader.Uniform(std::string("model"), transform.GetTransform() * transform2.GetTransform());
         mesh.Render();
         GFXSwapBuffers();
         

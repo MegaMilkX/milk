@@ -14,7 +14,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /I F:\libs\boost_1_55_0 ^
 /I F:\milk\repos\websocketpp ^
 /I C:\My_Documents\libs\freetype-2.6\include ^
-/D "_USING_V110_SDK71_" ^
+/I ..\external ^
 /D "_UNICODE" ^
 /D "UNICODE" ^
 /GS ^
@@ -68,7 +68,7 @@ odbccp32.lib ^
 opengl32.lib ^
 freetype26MT.lib ^
 winmm.lib ^
-/DEBUG ^
+soil.lib ^
 /MACHINE:X86 ^
 /OPT:REF ^
 /SAFESEH ^
