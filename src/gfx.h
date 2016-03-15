@@ -9,11 +9,16 @@
 #include "gfxmesh.h"
 #include "gfxtarget.h"
 
+typedef void (*GFXOnWindowResize)(int, int);
+
 GFXTarget*  GFXInit(HWND hWnd);
 void        GFXCleanup();
+void        GFXSetWindowResizeCallback(GFXOnWindowResize callback);
 
 void        GFXSwapBuffers();
 
 int         GFXVersion();
+
+
 
 #endif

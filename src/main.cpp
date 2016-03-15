@@ -60,10 +60,17 @@ struct Vertex
 };
 
 #include "transform.h"
+mat4f perspective_;
+
+void OnResize(int w, int h)
+{
+    perspective_ = ::perspective(1.5f, w/(float)h, 0.1f, 100.0f);
+}
 
 int main()
 {
     Init();
+    GFXSetWindowResizeCallback(&OnResize);
     
     File mesh_file = File::Open("data\\mesh.obj", File::READ);
     GFXMesh<Vertex> mesh = GFXMesh<Vertex>::Create(mesh_file);
@@ -76,7 +83,7 @@ int main()
     GFXTexture2D texture = GFXTexture2D::Create(texture_file);
     texture.Use(0);
     
-    mat4f perspective = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
+    perspective_ = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
     Transform camera_transform;
     camera_transform.Translate(0.0f, -0.0f, -2.0f);
     Transform transform;
@@ -106,7 +113,7 @@ int main()
         transform.Rotate(1.0f * dt, vec3f(0.0f, 1.0f, 0.0f));
         transform.Rotate(-0.5f * dt, vec3f(1.0f, 0.0f, 0.0f));
         
-        shader.Uniform(std::string("perspective"), perspective);
+        shader.Uniform(std::string("perspective"), perspective_);
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
         shader.Uniform(std::string("time"), time);

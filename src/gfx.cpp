@@ -8,14 +8,17 @@ HGLRC context;
 int contextVersion = 0;
 GFXTarget* rootRenderTarget;
 
+GFXOnWindowResize onResizeCallback = 0;
+
 LRESULT CALLBACK GFXWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch(msg)
     {
     case WM_SIZE:
         glViewport(0,0, LOWORD(lParam), HIWORD(lParam));
-        //TODO: Trigger custom callback for user to be able to properly process window resizing
-        break;
+        //TODO: What if I want to use member functions as callbacks?
+        if(onResizeCallback)
+            onResizeCallback(LOWORD(lParam), HIWORD(lParam));
     default:
         return CallWindowProc(GFXOldWndProc, hWnd, msg, wParam, lParam);
     }
@@ -109,6 +112,11 @@ void GFXCleanup()
     //TODO: Get rid of rootRenderTarget
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext(context);
+}
+
+void GFXSetWindowResizeCallback(GFXOnWindowResize callback)
+{
+    onResizeCallback = callback;
 }
 
 void GFXSwapBuffers()
