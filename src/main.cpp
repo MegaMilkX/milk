@@ -113,6 +113,8 @@ int main()
         transform.Rotate(1.0f * dt, vec3f(0.0f, 1.0f, 0.0f));
         transform.Rotate(-0.5f * dt, vec3f(1.0f, 0.0f, 0.0f));
         
+        transform2.Rotate(-1.0f * dt, vec3f(0.0f, 1.0f, 0.0f));
+        
         shader.Uniform(std::string("perspective"), perspective_);
         shader.Uniform(std::string("view"), camera_transform.GetTransform());
         shader.Uniform(std::string("model"), transform.GetTransform());
