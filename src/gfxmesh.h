@@ -9,7 +9,7 @@
 
 #include "macro\macro_vertex_def.h"
 
-#include "filesystem\filesystem.h"
+#include "filesystem\file.h"
 
 extern std::map<int, int> type_to_gltype;
 

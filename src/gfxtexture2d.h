@@ -2,7 +2,7 @@
 #define _GFXTEXTURE2D_H_
 
 #include "glextutil.h"
-#include "filesystem\filesystem.h"
+#include "filesystem\file.h"
 
 class GFXTexture2D
 {

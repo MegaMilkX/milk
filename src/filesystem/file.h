@@ -32,7 +32,7 @@ public:
     void Seek(unsigned int dist, SEEKFROM from = BEGIN);
     void Close();
     size_t Size() { return sz; }
-private:
+protected:
     struct Buffer
     {
         Buffer() : sz(0){}

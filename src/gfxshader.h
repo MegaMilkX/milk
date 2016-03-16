@@ -11,7 +11,7 @@
 
 #include "glextutil.h"
 #include "math3f.h"
-#include "filesystem\filesystem.h"
+#include "filesystem\file.h"
 
 class GFXShader
 {
