@@ -54,6 +54,12 @@ void File::Write(void* data, size_t sz)
     WriteFile(file, data, sz, &dwBytesWritten, NULL);
 }
 
+void File::Write(std::string data)
+{
+    DWORD dwBytesWritten;
+    WriteFile(file, (void*)data.data(), data.length(), &dwBytesWritten, NULL);
+}
+
 void File::Seek(unsigned int dist, SEEKFROM from)
 {
     LARGE_INTEGER large_int;

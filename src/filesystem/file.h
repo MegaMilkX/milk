@@ -29,6 +29,7 @@ public:
     static File Open(std::string path, MODE mode = READWRITE);
     unsigned char* Read(size_t sz, unsigned int& bytes_read);
     void Write(void* data, size_t sz);
+    void Write(std::string data);
     void Seek(unsigned int dist, SEEKFROM from = BEGIN);
     void Close();
     size_t Size() { return sz; }
