@@ -37,6 +37,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\resource.res ^
 ..\src\main.cpp ^
 ..\src\filesystem\file.cpp ^
+..\src\util\r3ddata.cpp ^
 ..\src\transform.cpp ^
 ..\src\node.cpp ^
 ..\src\scene.cpp ^
