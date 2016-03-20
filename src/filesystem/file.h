@@ -28,6 +28,8 @@ public:
     static File Create(std::string path, File::MODE mode = READWRITE);
     static File Open(std::string path, MODE mode = READWRITE);
     unsigned char* Read(size_t sz, unsigned int& bytes_read);
+    template<typename T>
+    T Read(unsigned int& bytes_read);
     void Write(void* data, size_t sz);
     void Write(std::string data);
     void Seek(unsigned int dist, SEEKFROM from = BEGIN);
@@ -55,5 +57,22 @@ protected:
     HANDLE file;
     size_t sz;
 };
+
+template<typename T>
+T File::Read(unsigned int& bytes_read)
+{
+    T value;
+    unsigned int bytesRead;
+    unsigned char* data = Read(sizeof(T), bytesRead);
+    if(data && bytesRead >= sizeof(T))
+    {
+        value = *((T*)data);
+    }
+    
+    return value;
+}
+
+template<>
+std::string File::Read<std::string>(unsigned int& bytes_read);
 
 #endif

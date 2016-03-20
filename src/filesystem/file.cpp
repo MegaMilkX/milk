@@ -48,6 +48,19 @@ unsigned char* File::Read(size_t sz, unsigned int& bytes_read)
     return readBuffer.data;
 }
 
+template<>
+std::string File::Read<std::string>(unsigned int& bytes_read)
+{
+    std::string str;
+    unsigned char* data = Read(bytes_read, bytes_read);
+    if(data)
+    {
+        str = std::string((char*)data, (char*)data + bytes_read);
+    }
+    
+    return str;
+}
+
 void File::Write(void* data, size_t sz)
 {
     DWORD dwBytesWritten;
