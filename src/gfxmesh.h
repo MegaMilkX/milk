@@ -11,6 +11,8 @@
 
 #include "filesystem\file.h"
 
+#include "util\r3ddata.h"
+
 extern std::map<int, int> type_to_gltype;
 
 template<typename T>
@@ -34,7 +36,6 @@ public:
     }
     
     bool IsValid() { return vao; }
-    
 private:
     GLuint vao;
     GeometryBuffer vertex_buffer;
@@ -56,35 +57,21 @@ template<typename T>
 GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
 {
     GFXMesh<T> mesh = Create(usage);
-    float rawverts[64] = 
-    {
-        -0.5f, -0.5f, 0.5f, 0.5f, 0.1f, 0.1f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.5f, 0.3f, 0.1f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.5f, 0.3f, 0.1f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 0.5f, 0.1f, 0.1f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 0.5f, 0.3f, 0.1f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 0.1f, 0.0f, 1.0f 
-    };
     std::vector<T> vertices;
+    std::vector<unsigned short> indices;
     
-    for(int i = 0; i < 8; ++i)
-    {
-        AttrPosition pos;
-        AttrNormal normal;
-        AttrUV uv;
-        pos.value.x = rawverts[0 + i * 8]; pos.value.y = rawverts[1 + i * 8]; pos.value.z = rawverts[2 + i * 8]; 
-        normal.value.x = rawverts[3 + i * 8]; normal.value.y = rawverts[4 + i * 8]; normal.value.z = rawverts[5 + i * 8];
-        uv.value.x = rawverts[6 + i * 8]; uv.value.y = rawverts[7 + i * 8];
-        T vert;
-        vert.Set(pos);
-        vert.Set(normal);
-        vert.Set(uv);
-        vertices.push_back(vert);
+    R3DData r3d = R3DData::Read(file);
+    
+    r3d.VertexCount();
+    
+    for(int i = 0; i < AttribCount(); ++i)
+    {   
+        R3DData::Attrib* attrib = GetAttrib(i);
+        if(attrib.type == R3D_POSITION)
+        {
+            
+        }
     }
-    
-    std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
     
     mesh.SetVertices(vertices);
     mesh.SetIndices(indices);

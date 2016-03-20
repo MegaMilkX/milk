@@ -4,7 +4,7 @@ R3DData::~R3DData()
 {
     for(int i = 0; i < attribs.size(); ++i)
     {
-        delete attribs[0].data;
+        delete attribs[i].data;
     }
     attribs.clear();
 }
@@ -14,11 +14,40 @@ R3DData R3DData::Read(File file)
     R3DData r3d;
     file.Seek(0, File::BEGIN);
     size_t bytesRead = 3;
-    /*
-    std::string file_header = file.Read<std::string>(bytesRead);
-    if(file_header != "R3D")
+
+    std::string header = file.Read<std::string>(bytesRead);
+    
+    if(header != "R3D")
         return r3d;
-    */    
+    
+    file.Read<char>(bytesRead);
+    file.Read<int>(bytesRead);
+    
+    while(bytesRead)
+    {
+        int type = file.Read<int>(bytesRead);
+        int elemCount = file.Read<int>(bytesRead);
+        int dataType = file.Read<int>(bytesRead);
+        int count = file.Read<int>(bytesRead);
+        
+        size_t sz_to_read = count * elemCount * r3d_data_type_size(dataType);
+        unsigned char* data = file.Read(sz_to_read, bytesRead);
+        if(bytesRead > sz_to_read || bytesRead < sz_to_read)
+        {
+            break;
+        }
+        
+        Attrib attrib;
+        attrib.type = type;
+        attrib.elemCount = elemCount;
+        attrib.dataType = dataType;
+        attrib.count = count;
+        attrib.size = bytesRead;
+        attrib.data = new unsigned char[bytesRead];
+        memcpy(attrib.data, data, bytesRead);
+        
+        r3d.attribs.push_back(attrib);
+    }
     
         
     return r3d;
@@ -26,12 +55,12 @@ R3DData R3DData::Read(File file)
 
 int R3DData::AttribCount()
 {
-    
+    return attribs.size();
 }
 
 R3DData::Attrib* R3DData::GetAttrib(int i)
 {
-    return 0;
+    return &attribs[i];
 }
 
 void R3DData::Write(File file)

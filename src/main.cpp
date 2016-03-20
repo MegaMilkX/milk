@@ -101,7 +101,43 @@ int main()
     // Mockups
     //=======================================================
     
-    
+    File file = File::Create("test.r3d");
+    R3DData r3d;
+    std::vector<float> position { 
+        -0.5f, -0.5f, 0.5f,
+        0.5f, -0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f, 0.5f,
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f, 0.5f, -0.5f,
+        -0.5f, 0.5f, -0.5f
+    };
+    std::vector<float> color { 
+        0.5f, 0.1f, 0.1f,
+        0.5f, 0.3f, 0.1f,
+        0.5f, 0.1f, 0.1f,
+        0.5f, 0.3f, 0.1f,
+        0.5f, 0.3f, 0.1f,
+        0.5f, 0.1f, 0.1f,
+        0.5f, 0.3f, 0.1f,
+        0.5f, 0.1f, 0.1f
+    };
+    std::vector<float> uv { 
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f  
+    };
+    r3d.AddAttrib(position, R3D_POSITION, 3);
+    r3d.AddAttrib(color, R3D_COLOR, 3);
+    r3d.AddAttrib(uv, R3D_UV, 2);
+    r3d.Write(file);
+    file.Close();
     
     //=======================================================
     float time = 0;

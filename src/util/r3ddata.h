@@ -85,6 +85,22 @@ private:
         else
             return 0;
     }
+    
+    static int r3d_data_type_size(unsigned int type)
+    {
+        if(type == R3D_UNSIGNED_BYTE || type == R3D_BYTE)
+            return 1;
+        else if(type == R3D_UNSIGNED_SHORT || type == R3D_SHORT)
+            return 2;
+        else if(type == R3D_UNSIGNED_INT || type == R3D_INT
+                || type == R3D_FLOAT)
+            return 4;
+        else if(type == R3D_DOUBLE)
+            return 8;
+        
+        return 0;
+    }
+    
     std::vector<Attrib> attribs;
 };
 
