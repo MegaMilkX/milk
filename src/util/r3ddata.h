@@ -2,8 +2,11 @@
 #define _R3DDATA_H_
 
 #include <vector>
+#include <string>
 
-#include "filesystem\file.h"
+#include <stdint.h>
+
+#include "..\filesystem\file.h"
 
 #define R3D_POSITION 100
 #define R3D_NORMAL 200
@@ -32,6 +35,9 @@ public:
     {
         int type;
         int elemCount;
+        int dataType;
+        int count;
+        int size;
         unsigned char* data;
     };
     
@@ -43,6 +49,42 @@ public:
     void AddAttrib(const std::vector<T>& data, int type, int elemPerVertex);
     void Write(File file);
 private:
+    unsigned int r3d_next_id()
+    {
+        static unsigned int type_id = 0;
+        return ++type_id;
+    }
+
+    template<typename T>
+    unsigned int r3d_get_type_id()
+    {
+        static unsigned int id = r3d_next_id();
+        return id;
+    }
+
+    template<typename T>
+    unsigned int r3d_get_type_def()
+    {
+        unsigned int id = r3d_get_type_id<T>();
+        if (id == r3d_get_type_id<unsigned char>())
+            return R3D_UNSIGNED_BYTE;
+        else if (id == r3d_get_type_id<char>())
+            return R3D_BYTE;
+        else if (id == r3d_get_type_id<uint16_t>())
+            return R3D_UNSIGNED_SHORT;
+        else if (id == r3d_get_type_id<int16_t>())
+            return R3D_SHORT;
+        else if (id == r3d_get_type_id<uint32_t>())
+            return R3D_UNSIGNED_INT;
+        else if (id == r3d_get_type_id<int32_t>())
+            return R3D_INT;
+        else if (id == r3d_get_type_id<float_t>())
+            return R3D_FLOAT;
+        else if (id == r3d_get_type_id<double_t>())
+            return R3D_DOUBLE;
+        else
+            return 0;
+    }
     std::vector<Attrib> attribs;
 };
 
@@ -55,32 +97,11 @@ void R3DData::AddAttrib(const std::vector<T>& data, int type, int elemPerVertex)
     memcpy((void*)attrib.data, (void*)data.data(), buffer_len);
     attrib.type = type;
     attrib.elemCount = elemPerVertex;
+    attrib.dataType = r3d_get_type_def<T>();
+    attrib.count = data.size() / elemPerVertex;
+    attrib.size = buffer_len;
     
     attribs.push_back(attrib);
-}
-
-class BufferReader
-{
-public:
-    enum SEEKFROM
-    {
-        BEGIN = FILE_BEGIN,
-        CURRENT = FILE_CURRENT,
-        END = FILE_END
-    };
-    BufferReader(unsigned char* data, size_t sz);
-    template<typename T>
-    unsigned char* Read(size_t& bytesRead);
-    void Seek(unsigned int dist, SEEKFROM seekFrom);
-private:
-    unsigned char* data;
-    size_t size;
-};
-
-template<typename T>
-unsigned char* BufferReader::Read(size_t& bytesRead)
-{
-    
 }
 
 #endif
