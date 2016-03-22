@@ -67,7 +67,40 @@ GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
     for(int i = 0; i < AttribCount(); ++i)
     {   
         R3DData::Attrib* attrib = GetAttrib(i);
+
         if(attrib.type == R3D_POSITION)
+        {
+            
+        }
+        else if(attrib.type == R3D_NORMAL)
+        {
+            
+        }
+        else if(attrib.type == R3D_TANGENT)
+        {
+            
+        }
+        else if(attrib.type == R3D_BITANGENT)
+        {
+            
+        }
+        else if(attrib.type == R3D_UV)
+        {
+            
+        }
+        else if(attrib.type == R3D_COLOR)
+        {
+            
+        }
+        else if(attrib.type == R3D_BONE)
+        {
+            
+        }
+        else if(attrib.type == R3D_WEIGHT)
+        {
+            
+        }
+        else if(attrib.type == R3D_INDEX)
         {
             
         }
