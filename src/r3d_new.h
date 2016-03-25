@@ -1,31 +1,26 @@
 #ifndef _R3D_H_
 #define _R3D_H_
 
-#include <set>
+#include <map>
+#include <vector>
 
-class R3DAttrib
-{
-public:
-	virtual ~R3DAttrib(){}
-};
+#include <stdint.h>
 
-class R3DPosition : public R3DAttrib
-{
-};
+#include "r3dattrib.h"
 
 class R3DData
 {
 public:
     typedef int type_indexl
-	bool Read(File file);
-	bool Write(File file);
+    bool Read(File file);
+    bool Write(File file);
 	
-	template<typename T>
-	void PushAttribute(R3DAttr* data);
-	template<typename T>
-	T GetAttribute(int id = 0);
+    template<typename T>
+    void PushAttribute(R3DAttr* data);
+    template<typename T>
+    T GetAttribute(int id = 0);
 private:
-	std::map<type_index, std::vector<R3DAttrib*>> attributes;
+    std::map<type_index, std::vector<R3DAttrib*>> attributes;
 };
 
 template<typename T>
