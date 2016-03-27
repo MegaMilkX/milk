@@ -32,8 +32,23 @@ public:
 private:
 };
 
-class R3DPosition : public R3DAttrib<R3D_POSITION, float, 3>
-{
-};
+class R3DPosition : public R3DAttrib<R3D_POSITION, float, 3>{};
+class R3DNormal : public R3DAttrib<R3D_NORMAL, float, 3>{};
+class R3DTangent : public R3DAttrib<R3D_TANGENT, float, 3>{};
+class R3DBitangent : public R3DAttrib<R3D_BITANGENT, float, 3>{};
+class R3DTexCoord : public R3DAttrib<R3D_UV, float, 2>{};
+class R3DColorRGBA : public R3DAttrib<R3D_COLOR, unsigned char, 4>{};
+class R3DColorRGB : public R3DAttrib<R3D_COLOR, unsigned char, 3>{};
+class R3DColorRG : public R3DAttrib<R3D_COLOR, unsigned char, 2>{};
+class R3DColorR : public R3DAttrib<R3D_COLOR, unsigned char, 1>{};
+class R3DBone4 : public R3DAttrib<R3D_BONE, unsigned short, 4>{};
+class R3DBone3 : public R3DAttrib<R3D_BONE, unsigned short, 3>{};
+class R3DBone2 : public R3DAttrib<R3D_BONE, unsigned short, 2>{};
+class R3DBone1 : public R3DAttrib<R3D_BONE, unsigned short, 1>{};
+class R3DBoneWeight4 : public R3DAttrib<R3D_WEIGHT, unsigned char, 4>{};
+class R3DBoneWeight3 : public R3DAttrib<R3D_WEIGHT, unsigned char, 3>{};
+class R3DBoneWeight2 : public R3DAttrib<R3D_WEIGHT, unsigned char, 2>{};
+class R3DBoneWeight1 : public R3DAttrib<R3D_WEIGHT, unsigned char, 1>{};
+class R3DIndex : public R3DAttrib<R3D_INDEX, unsigned int, 1>{};
 
 #endif

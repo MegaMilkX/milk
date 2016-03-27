@@ -57,54 +57,10 @@ template<typename T>
 GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
 {
     GFXMesh<T> mesh = Create(usage);
-    std::vector<T> vertices;
-    std::vector<unsigned short> indices;
-    
+        
     R3DData r3d = R3DData::Read(file);
-    
-    r3d.VertexCount();
-    
-    for(int i = 0; i < AttribCount(); ++i)
-    {   
-        R3DData::Attrib* attrib = GetAttrib(i);
-
-        if(attrib.type == R3D_POSITION)
-        {
-            
-        }
-        else if(attrib.type == R3D_NORMAL)
-        {
-            
-        }
-        else if(attrib.type == R3D_TANGENT)
-        {
-            
-        }
-        else if(attrib.type == R3D_BITANGENT)
-        {
-            
-        }
-        else if(attrib.type == R3D_UV)
-        {
-            
-        }
-        else if(attrib.type == R3D_COLOR)
-        {
-            
-        }
-        else if(attrib.type == R3D_BONE)
-        {
-            
-        }
-        else if(attrib.type == R3D_WEIGHT)
-        {
-            
-        }
-        else if(attrib.type == R3D_INDEX)
-        {
-            
-        }
-    }
+    std::vector<unsigned short> indices = r3d.GetIndices();
+    std::vector<T> vertices = T::ReadVertsR3D(r3d);
     
     mesh.SetVertices(vertices);
     mesh.SetIndices(indices);
