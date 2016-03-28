@@ -9,10 +9,7 @@ int main()
     GameState::Push<GSMainMenu>();
     GameState::Push<GSLoading>();
     
-    while(true)
-    {
-        GameState::Update();
-    }
+    while(GameState::Update()){}
     
     //GameState::Cleanup();
     return 0;
