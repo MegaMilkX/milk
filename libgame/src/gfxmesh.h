@@ -58,9 +58,9 @@ GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
 {
     GFXMesh<T> mesh = Create(usage);
         
-    R3DData r3d = R3DData::Read(file);
-    std::vector<unsigned short> indices = r3d.GetIndices();
-    std::vector<T> vertices = T::ReadVertsR3D(r3d);
+    //R3DData r3d = R3DData::Read(file);
+    std::vector<unsigned short> indices;// = r3d.GetIndices();
+    std::vector<T> vertices;// = T::ReadVertsR3D(r3d);
     
     mesh.SetVertices(vertices);
     mesh.SetIndices(indices);
