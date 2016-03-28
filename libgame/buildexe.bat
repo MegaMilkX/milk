@@ -1,6 +1,7 @@
 call "%VS120COMNTOOLS%..\..\VC\vcvarsall"
 
-mkdir lib
+mkdir build
+mkdir obj
 pushd obj
 cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /I F:\libs\SQLITE3\sqlite\H ^
@@ -33,9 +34,10 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /Gm- ^
 /O2 ^
 /nologo ^
-/c ^
+..\src\resource.res ^
 ..\src\main.cpp ^
 ..\src\filesystem\file.cpp ^
+..\src\util\r3ddata.cpp ^
 ..\src\transform.cpp ^
 ..\src\node.cpp ^
 ..\src\scene.cpp ^
@@ -49,22 +51,36 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
 ..\src\camera.cpp ^
-..\src\renderable.cpp
-lib /out:"..\lib\libgame.lib" ^
-main.obj ^
-file.obj ^
-transform.obj ^
-node.obj ^
-scene.obj ^
-glextutil.obj ^
-gfx.obj ^
-geometrybuffer.obj ^
-gfxmesh.obj ^
-gfxshader.obj ^
-gfxtexture2d.obj ^
-gfxtarget.obj ^
-window.obj ^
-input.obj ^
-camera.obj ^
-renderable.obj
+..\src\renderable.cpp ^
+/link ^
+/OUT:"..\build\game.exe" ^
+kernel32.lib ^
+user32.lib ^
+gdi32.lib ^
+winspool.lib ^
+comdlg32.lib ^
+advapi32.lib ^
+shell32.lib ^
+ole32.lib ^
+oleaut32.lib ^
+uuid.lib ^
+odbc32.lib ^
+odbccp32.lib ^
+opengl32.lib ^
+freetype26MT.lib ^
+winmm.lib ^
+soil.lib ^
+/MACHINE:X86 ^
+/OPT:REF ^
+/SAFESEH ^
+/MAP ^
+/OPT:ICF ^
+/ERRORREPORT:PROMPT ^
+/NOLOGO ^
+/LIBPATH:"F:\libs\openssl-1.0.2d-vs2013\lib" ^
+/LIBPATH:"F:\libs\SQLITE3\Release" ^
+/LIBPATH:"F:\milk\repos\ExcelFormat\Release" ^
+/LIBPATH:"F:\libs\boost_1_55_0\stage\lib" ^
+/LIBPATH:"..\external" ^
+/TLBID:1
 popd
