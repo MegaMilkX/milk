@@ -1,6 +1,26 @@
 #include "GameState.h"
 
 std::stack<GameState*> GameState::state_stack;
+Window GameState::window;
+
+bool GameState::Init()
+{
+    window = Window::Create(L"game");
+    
+    GFXTarget* gfxTarget = GFXInit(window.GetHandle());
+    if(!gfxTarget)
+    {
+        std::cout << "GFX initialization fucked up\n";
+        return false;
+    }
+    
+    return true;
+}
+
+void GameState::Cleanup()
+{
+    GFXCleanup();
+}
 
 void GameState::Pop()
 {
@@ -8,17 +28,12 @@ void GameState::Pop()
     state_stack.pop();
 }
 
-void GameState::Input()
-{
-    
-}
-
-void GameState::Update()
+bool GameState::Update()
 {
     state_stack.top()->OnUpdate();
-}
-
-void GameState::Render()
-{
     state_stack.top()->OnRender();
+    
+    
+    
+    return window.Update();
 }

@@ -4,13 +4,14 @@
 
 int main()
 {
-    //GameState::Init();
+    if(!GameState::Init())
+        return 0;
     
     GameState::Push<GSMainMenu>();
     GameState::Push<GSLoading>();
     
     while(GameState::Update()){}
     
-    //GameState::Cleanup();
+    GameState::Cleanup();
     return 0;
 }

@@ -6,7 +6,7 @@
 class GSMainMenu : public GameState
 {
 public:
-    void OnStart()
+    void OnInit()
     {
         
     }

@@ -1,6 +1,7 @@
 call "%VS120COMNTOOLS%..\..\VC\vcvarsall"
 
 mkdir lib
+mkdir obj
 pushd obj
 cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /I F:\libs\SQLITE3\sqlite\H ^

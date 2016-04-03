@@ -15,6 +15,7 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /I F:\milk\repos\websocketpp ^
 /I C:\My_Documents\libs\freetype-2.6\include ^
 /I ..\external ^
+/I ..\..\libgame\include ^
 /D "_UNICODE" ^
 /D "UNICODE" ^
 /GS ^
@@ -55,6 +56,7 @@ opengl32.lib ^
 freetype26MT.lib ^
 winmm.lib ^
 soil.lib ^
+libgame.lib ^
 /MACHINE:X86 ^
 /OPT:REF ^
 /SAFESEH ^
@@ -67,5 +69,6 @@ soil.lib ^
 /LIBPATH:"F:\milk\repos\ExcelFormat\Release" ^
 /LIBPATH:"F:\libs\boost_1_55_0\stage\lib" ^
 /LIBPATH:"..\..\libgame\external" ^
+/LIBPATH:"..\..\libgame\lib" ^
 /TLBID:1
 popd

@@ -9,13 +9,12 @@ class GSLoading : public GameState
 {
 public:
     GSLoading() : start_time(0), time(0) {}
-    void OnStart()
+    void OnInit()
     {
         start_time = GetTickCount();
     }
     void OnUpdate()
     {
-        std::cout << "LOADING" << std::endl;
         time = GetTickCount();
 
         if (time - start_time >= 5000)
