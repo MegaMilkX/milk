@@ -12,6 +12,9 @@ public:
     void OnInit()
     {
         start_time = GetTickCount();
+        
+        scene = Scene::Create();
+        camera = Camera::Create(&scene);
     }
     void OnUpdate()
     {
@@ -34,6 +37,9 @@ public:
 private:
     DWORD start_time;
     DWORD time;
+    
+    Scene scene;
+    Camera camera;
 };
 
 #endif

@@ -34,6 +34,6 @@ bool GameState::Update()
     state_stack.top()->OnRender();
     
     
-    
+    GFXSwapBuffers();
     return window.Update();
 }
