@@ -8,13 +8,21 @@
 class GSLoading : public GameState
 {
 public:
-    GSLoading() : start_time(0), time(0) {}
+    GSLoading() : start_time(0), time(0), scene(Scene::Create()) {}
     void OnInit()
     {
         start_time = GetTickCount();
         
-        scene = Scene::Create();
         camera = Camera::Create(&scene);
+        mesh = Resource<GFXMesh>::Get("cube");
+        vert_shader = Resource<GFXVertexShader>::Get("vertex_shader_basic");
+        pixel_shader = Resource<GFXPixelShader>::Get("color_shader");
+    }
+    void OnSwitch()
+    {
+        mesh->Bind();
+        vert_shader->Bind();
+        pixel_shader->Bind();
     }
     void OnUpdate()
     {
@@ -27,7 +35,8 @@ public:
     }
     void OnRender()
     {
-
+        pixel_shader->Uniform("time", time * 0.001f);
+        mesh->Render();
     }
     void OnCleanup()
     {
@@ -39,7 +48,10 @@ private:
     DWORD time;
     
     Scene scene;
-    Camera camera;
+    Camera* camera;
+    Resource<GFXMesh> mesh;
+    Resource<GFXVertexShader> vert_shader;
+    Resource<GFXPixelShader> pixel_shader;
 };
 
 #endif
