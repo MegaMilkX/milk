@@ -12,6 +12,7 @@ public:
     virtual ~GameState(){}
 
     virtual void OnInit() = 0;
+    virtual void OnSwitch() = 0;
     virtual void OnCleanup() = 0;
     virtual void OnUpdate() = 0;
     virtual void OnRender() = 0;
