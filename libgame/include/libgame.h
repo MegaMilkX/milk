@@ -3,5 +3,7 @@
 
 #include "../src/window.h"
 #include "../src/gfx.h"
+#include "../src/scene.h"
+#include "../src/camera.h"
 
 #endif
