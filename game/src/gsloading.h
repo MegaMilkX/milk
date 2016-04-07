@@ -13,6 +13,9 @@ public:
     {
         start_time = GetTickCount();
         
+        GFXMesh mesh = GFXMesh::Create();
+        mesh.VertexFormat("XYZRGBANRMBINTANBONEWGHT");
+        
         camera = Camera::Create(&scene);
         mesh = Resource<GFXMesh>::Get("cube");
         vert_shader = Resource<GFXVertexShader>::Get("vertex_shader_basic");
