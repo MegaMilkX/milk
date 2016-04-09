@@ -55,6 +55,7 @@ odbccp32.lib ^
 opengl32.lib ^
 freetype26MT.lib ^
 winmm.lib ^
+Shlwapi.lib ^
 soil.lib ^
 libgame.lib ^
 /MACHINE:X86 ^

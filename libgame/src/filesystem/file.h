@@ -2,6 +2,7 @@
 #define _FILESYSTEM_H_
 
 #include <windows.h>
+#include <Shlwapi.h>
 #include <string>
 
 class File
@@ -27,6 +28,7 @@ public:
 
     static File Create(std::string path, File::MODE mode = READWRITE);
     static File Open(std::string path, MODE mode = READWRITE);
+    static bool Exists(std::string path);
     unsigned char* Read(size_t sz, unsigned int& bytes_read);
     template<typename T>
     T Read(unsigned int& bytes_read);

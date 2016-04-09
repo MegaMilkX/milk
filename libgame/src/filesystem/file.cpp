@@ -22,6 +22,21 @@ File File::Open(std::string path, File::MODE mode)
     return file;
 }
 
+bool File::Exists(std::string path)
+{
+    std::wstring wpath(path.begin(), path.end());
+    if(PathFileExists(wpath.c_str()))
+    {
+        DWORD file_attrib = GetFileAttributes(wpath.c_str());
+        if(file_attrib & FILE_ATTRIBUTE_DIRECTORY)
+            return false;
+        else
+            return true;
+    }
+    else
+        return false;
+}
+
 unsigned char* File::Read(size_t sz, unsigned int& bytes_read)
 {
     if (readBuffer.sz != 0)
