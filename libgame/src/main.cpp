@@ -73,7 +73,7 @@ int main()
     GFXSetWindowResizeCallback(&OnResize);
     
     File mesh_file = File::Open("data\\mesh.obj", File::READ);
-    GFXMesh<Vertex> mesh = GFXMesh<Vertex>::Create(mesh_file);
+    GFXMesh mesh = GFXMesh::Create(mesh_file);
     
     File shader_file = File::Open("data\\shader140.glsl", File::READ);
     GFXShader shader = GFXShader::Create(shader_file);
