@@ -15,7 +15,6 @@
 
 extern std::map<int, int> type_to_gltype;
 
-template<typename T>
 class GFXMesh
 {
 public:
@@ -27,11 +26,16 @@ public:
     static GFXMesh Create(int usage = STATIC);
     static GFXMesh Create(File file, int usage = STATIC);
     GFXMesh() : vao(0) {}
+    template<typename T>
     void SetVertices(std::vector<T> vertices);
     void SetIndices(std::vector<unsigned short> indices);
-    void Render()
+    void Bind()
     {
         glBindVertexArray(vao);
+    }
+    void Render()
+    {
+        Bind();
         glDrawElements(GL_TRIANGLES, index_count, index_type, 0);
     }
     
@@ -46,35 +50,13 @@ private:
 };
 
 template<typename T>
-GFXMesh<T> GFXMesh<T>::Create(int usage)
-{
-    GFXMesh<T> mesh;
-    glGenVertexArrays(1, &mesh.vao);
-    return mesh;
-}
-
-template<typename T>
-GFXMesh<T> GFXMesh<T>::Create(File file, int usage)
-{
-    GFXMesh<T> mesh = Create(usage);
-        
-    //R3DData r3d = R3DData::Read(file);
-    std::vector<unsigned short> indices;// = r3d.GetIndices();
-    std::vector<T> vertices;// = T::ReadVertsR3D(r3d);
-    
-    mesh.SetVertices(vertices);
-    mesh.SetIndices(indices);
-    
-    return mesh;
-}
-
-template<typename T>
-void GFXMesh<T>::SetVertices(std::vector<T> vertices)
+void GFXMesh::SetVertices(std::vector<T> vertices)
 {
     if(vertices.size() == 0)
         return;
     
-    glBindVertexArray(vao);
+    Bind();
+    
     vertex_buffer = GeometryBuffer::Create(GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     vertex_buffer.Data(vertices.data(), sizeof(T) * vertices.size());
     size_t offset = 0;
@@ -91,19 +73,6 @@ void GFXMesh<T>::SetVertices(std::vector<T> vertices)
         offset += attrInfo.size;
         glEnableVertexAttribArray(attrIndex);
     }
-}
-
-template<typename T>
-void GFXMesh<T>::SetIndices(std::vector<unsigned short> indices)
-{
-    if(indices.size() == 0)
-        return;
-    
-    glBindVertexArray(vao);
-    index_buffer = GeometryBuffer::Create(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
-    index_buffer.Data(indices.data(), sizeof(unsigned short) * indices.size());
-    index_count = indices.size();
-    index_type = GL_UNSIGNED_SHORT;
 }
 
 #endif

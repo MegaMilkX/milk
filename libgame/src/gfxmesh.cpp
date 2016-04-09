@@ -11,4 +11,39 @@ std::map<int, int> type_to_gltype =
   { TypeInfo<unsigned int>::GetId(), GL_UNSIGNED_INT },
   { TypeInfo<float>::GetId(), GL_FLOAT },
   { TypeInfo<double>::GetId(), GL_DOUBLE } };
+
+GFXMesh GFXMesh::Create(int usage)
+{
+    GFXMesh mesh;
+    glGenVertexArrays(1, &mesh.vao);
+    
+    return mesh;
+}
+
+GFXMesh GFXMesh::Create(File file, int usage)
+{
+    GFXMesh mesh = Create(usage);
+    
+    //TODO
+        
+    //R3DData r3d = R3DData::Read(file);
+    //std::vector<unsigned short> indices;// = r3d.GetIndices();
+    //std::vector<T> vertices;// = T::ReadVertsR3D(r3d);
+    
+    //mesh.SetVertices(vertices);
+    //mesh.SetIndices(indices);
+    
+    return mesh;
+}
   
+void GFXMesh::SetIndices(std::vector<unsigned short> indices)
+{
+    if(indices.size() == 0)
+        return;
+    
+    glBindVertexArray(vao);
+    index_buffer = GeometryBuffer::Create(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+    index_buffer.Data(indices.data(), sizeof(unsigned short) * indices.size());
+    index_count = indices.size();
+    index_type = GL_UNSIGNED_SHORT;
+}
