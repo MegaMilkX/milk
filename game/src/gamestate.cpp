@@ -14,6 +14,11 @@ bool GameState::Init()
         return false;
     }
     
+    Resource<GFXMesh>::AddSearchPath("data\\meshes");
+    Resource<GFXMesh>::AddSearchPath("data\\meshes.pak");
+    Resource<GFXShader>::AddSearchPath("data\\shaders");
+    Resource<GFXTexture2D>::AddSearchPath("data\\textures");
+    
     return true;
 }
 
@@ -26,11 +31,14 @@ void GameState::Pop()
 {
     delete state_stack.top();
     state_stack.pop();
+    if(state_stack.size()>0)
+        state_stack.top()->OnSwitch();
 }
 
 bool GameState::Update()
 {
     state_stack.top()->OnUpdate();
+    
     state_stack.top()->OnRender();
     
     

@@ -36,6 +36,7 @@ void GameState::Push()
     T* state = new T();
     state_stack.push(state);
     state->OnInit();
+    state->OnSwitch();
 }
 
 #endif
