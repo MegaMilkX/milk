@@ -50,7 +50,12 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
 ..\src\camera.cpp ^
-..\src\renderable.cpp
+..\src\renderable.cpp ^
+..\src\resourcereaders\reader_anim.cpp ^
+..\src\resourcereaders\reader_frag.cpp ^
+..\src\resourcereaders\reader_r3d.cpp ^
+..\src\resourcereaders\reader_tga.cpp ^
+..\src\resourcereaders\reader_vert.cpp ^
 lib /out:"..\lib\libgame.lib" ^
 main.obj ^
 file.obj ^
