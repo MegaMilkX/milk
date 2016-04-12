@@ -86,9 +86,9 @@ bool Resource<T>::ReadFile(std::string name, T& data)
     {
         std::string path = search_paths[i] + (search_paths[i][search_paths.size()-1]=='\\'?"":"\\") + name;
         
-        for(int j = 0; j < Resource<T>::ReaderCount(); ++j)
+        for(int j = 0; j < T::ReaderCount(); ++j)
         {
-            std::string path_w_extension = path + "." + Resource<T>::Reader(j).Extension();
+            std::string path_w_extension = path + "." + T::GetReaderExtension(j);
             std::cout << path_w_extension << std::endl;
             if(File::Exists(path_w_extension))
             {
@@ -103,9 +103,9 @@ bool Resource<T>::ReadFile(std::string name, T& data)
     
     if(search_paths.size() == 0)
     {
-        for(int j = 0; j < Resource<T>::ReaderCount(); ++j)
+        for(int j = 0; j < T::ReaderCount(); ++j)
         {
-            std::string path = name + "." + Resource<T>::Reader(j).Extension();
+            std::string path = name + "." + T::GetReaderExtension(j);
             std::cout << path << std::endl;
             if(File::Exists(path))
             {
@@ -119,7 +119,10 @@ bool Resource<T>::ReadFile(std::string name, T& data)
     if(reader_id < 0)
         return false;
         
-    if(!Resource<T>::Reader(reader_id).Read(final_path, (void*)&data))
+    //if(!T::Read(reader_id, final_path, (void*)&data))
+    //    return false;
+        
+    if(!data.Read(reader_id, final_path))
         return false;
         
     return true;

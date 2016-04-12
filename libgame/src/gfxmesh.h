@@ -9,9 +9,13 @@
 
 #include "macro\macro_vertex_def.h"
 
-#include "filesystem\file.h"
+#include "macro\macro_readers_def.h"
 
-#include "util\r3ddata.h"
+//#include "resourceobject.h"
+
+//#include "filesystem\file.h"
+
+//#include "util\r3ddata.h"
 
 extern std::map<int, int> type_to_gltype;
 
@@ -23,6 +27,7 @@ public:
         (ReaderR3D) r3d,
         (ReaderFBX) fbx
     )
+    
     enum
     {
         STATIC = GL_STATIC_DRAW,

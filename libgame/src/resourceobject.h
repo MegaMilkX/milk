@@ -1,6 +1,8 @@
 #ifndef _RESOURCEOBJECT_H_
 #define _RESOURCEOBJECT_H_
 
+#include "macro\macro_readers_def.h"
+
 class ResourceObject
 {
 public:
