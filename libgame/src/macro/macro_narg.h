@@ -1,6 +1,9 @@
 #ifndef _MACRO_NARG_H_
 #define _MACRO_NARG_H_
 
+//========================================
+// Expends into number of arguments
+//========================================
 #define PP_NARGS(...) \
   EXPAND(_xPP_NARGS_IMPL(__VA_ARGS__, 63, 62, 61, 60, \
   59, 58, 57, 56, 55, 54, 53, 52, 51, 50, \
