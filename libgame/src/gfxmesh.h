@@ -19,6 +19,9 @@
 
 extern std::map<int, int> type_to_gltype;
 
+inline bool ReaderR3D(std::string path, void* data){ return true; }
+inline bool ReaderFBX(std::string path, void* data){ return true; }
+
 class GFXMesh
 {
 public:

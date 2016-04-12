@@ -5,6 +5,8 @@
 #include "macro_for_each_arg.h"
 #include "macro_narg.h"
 
+#include "..\filesystem\file.h"
+
 class Reader
 {
 public:
