@@ -40,8 +40,6 @@ int main()
     if(!GameState::Init())
         return 0;
     
-    Resource<GFXMesh>::AddReader(ResourceReader("r3d", ReadR3D));
-    
     GameState::Push<GSMainMenu>();
     GameState::Push<GSLoading>();
     

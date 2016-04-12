@@ -20,7 +20,7 @@ public:
     void OnSwitch()
     {
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        mesh->Bind();
+        //mesh->Bind();
         //vert_shader->Use();
         //pixel_shader->Use();
     }
@@ -39,7 +39,7 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //pixel_shader->Uniform(std::string("time"), time * 0.001f);
-        mesh->Render();
+        //mesh->Render();
     }
     void OnCleanup()
     {

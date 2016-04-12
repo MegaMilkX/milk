@@ -7,13 +7,6 @@
 
 #include "..\filesystem\file.h"
 
-class Reader
-{
-public:
-    virtual std::string Extension() = 0;
-    virtual bool Read(File file, void* data) = 0;
-};
-
 #define READERS(...) \
     static int ReaderCount() { return PP_NARGS(__VA_ARGS__); } \
     static std::string GetReaderExtension(int id) \
@@ -37,7 +30,7 @@ public:
         return result; \
     } 
     
-#define CASE_EXT(i, arg) case i: ext = "STRIP(arg)"; break;
+#define CASE_EXT(i, arg) case i: ext = STRIP(arg); break;
 #define CASE_READ(i, arg) case i: result = TYPEOF(arg)(path, this); break;
 
 #endif

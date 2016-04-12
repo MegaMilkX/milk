@@ -19,17 +19,17 @@
 
 extern std::map<int, int> type_to_gltype;
 
-inline bool ReaderR3D(std::string path, void* data){ return true; }
-inline bool ReaderFBX(std::string path, void* data){ return true; }
-
 class GFXMesh
 {
 public:
     READERS
     (
-        (ReaderR3D) r3d,
-        (ReaderFBX) fbx
+        (ReaderR3D) "r3d",
+        (ReaderFBX) "fbx"
     )
+    
+    bool ReaderR3D(std::string path, GFXMesh* data){ return true; }
+    bool ReaderFBX(std::string path, GFXMesh* data){ return true; }
     
     enum
     {

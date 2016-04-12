@@ -119,9 +119,6 @@ bool Resource<T>::ReadFile(std::string name, T& data)
     if(reader_id < 0)
         return false;
         
-    //if(!T::Read(reader_id, final_path, (void*)&data))
-    //    return false;
-        
     if(!data.Read(reader_id, final_path))
         return false;
         
