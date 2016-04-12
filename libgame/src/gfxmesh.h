@@ -18,6 +18,11 @@ extern std::map<int, int> type_to_gltype;
 class GFXMesh
 {
 public:
+    READERS
+    (
+        (ReaderR3D) r3d,
+        (ReaderFBX) fbx
+    )
     enum
     {
         STATIC = GL_STATIC_DRAW,
