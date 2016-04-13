@@ -19,22 +19,6 @@ GFXMesh GFXMesh::Create(int usage)
     
     return mesh;
 }
-
-GFXMesh GFXMesh::Create(File file, int usage)
-{
-    GFXMesh mesh = Create(usage);
-    
-    //TODO
-        
-    //R3DData r3d = R3DData::Read(file);
-    //std::vector<unsigned short> indices;// = r3d.GetIndices();
-    //std::vector<T> vertices;// = T::ReadVertsR3D(r3d);
-    
-    //mesh.SetVertices(vertices);
-    //mesh.SetIndices(indices);
-    
-    return mesh;
-}
   
 void GFXMesh::SetIndices(std::vector<unsigned short> indices)
 {

@@ -8,4 +8,6 @@
 #include "../src/scene.h"
 #include "../src/camera.h"
 
+#include "../src/transform.h"
+
 #endif

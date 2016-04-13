@@ -2,13 +2,19 @@
 #define _GFXTEXTURE2D_H_
 
 #include "glextutil.h"
-#include "filesystem\file.h"
+
+#include "macro\macro_readers_def.h"
 
 class GFXTexture2D
 {
 public:
+    READERS
+    (
+        (ReadPNG) "png"
+    )
+    bool ReadPNG(File file);
+    
     static GFXTexture2D Create();
-    static GFXTexture2D Create(File file);
     
     void Use(unsigned int layer = 0);
 private:

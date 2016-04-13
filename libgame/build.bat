@@ -35,7 +35,6 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 /O2 ^
 /nologo ^
 /c ^
-..\src\main.cpp ^
 ..\src\filesystem\file.cpp ^
 ..\src\transform.cpp ^
 ..\src\node.cpp ^

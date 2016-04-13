@@ -11,25 +11,46 @@
 
 #include "macro\macro_readers_def.h"
 
-//#include "resourceobject.h"
-
-//#include "filesystem\file.h"
-
-//#include "util\r3ddata.h"
-
 extern std::map<int, int> type_to_gltype;
+
+struct Vertex
+{
+    VERTEX
+    (
+        (AttrPosition) position,
+        (AttrNormal) normal,
+        (AttrUV) uv
+    )
+};
 
 class GFXMesh
 {
 public:
     READERS
     (
-        (ReaderR3D) "r3d",
-        (ReaderFBX) "fbx"
+        (ReadR3D) "r3d"
     )
     
-    bool ReaderR3D(std::string path, GFXMesh* data){ return true; }
-    bool ReaderFBX(std::string path, GFXMesh* data){ return true; }
+    bool ReadR3D(File file)
+    {
+        std::vector<Vertex> vertices =
+        {
+            {vec3f(-0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(1.0f, 0.0f)},
+            {vec3f(0.5f, -0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f)},
+            {vec3f(0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 1.0f)},
+            {vec3f(-0.5f, 0.5f, 0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(1.0f, 1.0f)},
+            {vec3f(-0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(0.0f, 0.0f)},
+            {vec3f(0.5f, -0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(1.0f, 0.0f)},
+            {vec3f(0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.3f, 0.1f), vec2f(1.0f, 1.0f)},
+            {vec3f(-0.5f, 0.5f, -0.5f), vec3f(0.5f, 0.1f, 0.1f), vec2f(0.0f, 1.0f)}
+        };
+        std::vector<unsigned short> indices = { 0, 1, 2, 2, 3, 0, 3, 2, 6, 6, 7, 3, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 0, 1, 5, 5, 4, 0, 1, 5, 6, 6, 2, 1 };
+        
+        SetVertices(vertices);
+        SetIndices(indices);
+        
+        return true; 
+    }
     
     enum
     {
@@ -37,7 +58,6 @@ public:
         DYNAMIC = GL_DYNAMIC_DRAW
     };
     static GFXMesh Create(int usage = STATIC);
-    static GFXMesh Create(File file, int usage = STATIC);
     GFXMesh() : vao(0) {}
     template<typename T>
     void SetVertices(std::vector<T> vertices);

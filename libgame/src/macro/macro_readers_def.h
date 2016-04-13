@@ -19,7 +19,7 @@
         } \
         return ext; \
     } \
-    bool Read(int id, std::string path) \
+    bool Read(int id, File file) \
     { \
         bool result = false; \
         switch(id) \
@@ -31,6 +31,6 @@
     } 
     
 #define CASE_EXT(i, arg) case i: ext = STRIP(arg); break;
-#define CASE_READ(i, arg) case i: result = TYPEOF(arg)(path, this); break;
+#define CASE_READ(i, arg) case i: result = TYPEOF(arg)(file); break;
 
 #endif

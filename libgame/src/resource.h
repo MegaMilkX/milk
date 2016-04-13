@@ -39,6 +39,7 @@ std::vector<ResourceReader> Resource<T>::readers;
 template<typename T>
 void Resource<T>::AddSearchPath(std::string path)
 {
+    CreateDirectoryA(path.c_str(), NULL);
     search_paths.push_back(path);
 }
 
@@ -119,7 +120,9 @@ bool Resource<T>::ReadFile(std::string name, T& data)
     if(reader_id < 0)
         return false;
         
-    if(!data.Read(reader_id, final_path))
+    File file = File::Open(final_path, File::READ);
+        
+    if(!data.Read(reader_id, file))
         return false;
         
     return true;

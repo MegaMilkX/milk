@@ -13,14 +13,13 @@ GFXTexture2D GFXTexture2D::Create()
     return texture;
 }
 
-GFXTexture2D GFXTexture2D::Create(File file)
+bool GFXTexture2D::ReadPNG(File file)
 {
-    GFXTexture2D texture = GFXTexture2D::Create();
     file.Seek(0, File::BEGIN);
     unsigned int bytesRead;
     unsigned char* data = file.Read(file.Size(), bytesRead);
     if(!data || !bytesRead)
-        return texture;
+        return false;
     
     int width, height, channels = 0;
     int force_channels = 4;
@@ -31,7 +30,7 @@ GFXTexture2D GFXTexture2D::Create(File file)
                                 force_channels );
                                 
     if(!img)
-        return texture;
+        return false;
     
     unsigned int format = 0;
     switch( force_channels )
@@ -49,9 +48,9 @@ GFXTexture2D GFXTexture2D::Create(File file)
         format = GL_RGBA;
         break;
     }
-
+    
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.buffer);
+    glBindTexture(GL_TEXTURE_2D, buffer);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -60,7 +59,8 @@ GFXTexture2D GFXTexture2D::Create(File file)
     glGenerateMipmap(GL_TEXTURE_2D);
     
     SOIL_free_image_data( img );
-    return texture;
+    
+    return true;
 }
 
 void GFXTexture2D::Use(unsigned int layer)
