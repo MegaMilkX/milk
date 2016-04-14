@@ -5,6 +5,9 @@
 
 #include "../src/window.h"
 #include "../src/gfx.h"
+#include "../src/gfxshader.h"
+#include "../src/gfxmesh.h"
+#include "../src/gfxtexture2d.h"
 #include "../src/scene.h"
 #include "../src/camera.h"
 
