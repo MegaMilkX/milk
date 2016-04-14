@@ -10,8 +10,7 @@ class GSLoading : public GameState
 public:
     GSLoading() : start_time(0), time(0), scene(Scene::Create()) {}
     void OnInit()
-    {
-        
+    { 
         start_time = GetTickCount();
         
         camera = Camera::Create(&scene);
