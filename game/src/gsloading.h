@@ -23,7 +23,8 @@ public:
         perspective_ = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
         camera_transform.Translate(0.0f, -0.0f, -2.0f);
         
-        GFXShaderVertex vert_shader = Resource<GFXShaderVertex>::Get("Transform3D");
+        ResHdl<GFXShaderVertex> vert_shader = Resource<GFXShaderVertex>::Get("transform3d");
+        ResHdl<GFXShaderPixel> frag_shader = Resource<GFXShaderPixel>::Get("textured");
     }
     void OnSwitch()
     {

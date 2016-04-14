@@ -1,37 +1,29 @@
-//==================================================================================
-// TODO: automatic #version XXX append to the beginning of source before compiling?
-// version should be available in gfx after initialization
-//==================================================================================
-
 #ifndef _GFXSHADER_H_
 #define _GFXSHADER_H_
 
-#include <string>
-#include <map>
-
-#include "glextutil.h"
-#include "math3f.h"
 #include "filesystem\file.h"
+#include "macro\macro_readers_def.h"
+
+namespace GFXShader
+{
+    enum
+    {
+        PIXEL = 0,
+        VERTEX = 1,
+        GEOMETRY = 2,
+        COMPUTE = 3,
+        TESS_CONTROL = 4,
+        TESS_EVALUATION = 5
+    };
+}
 
 class GFXShader
 {
 public:
-    enum
-    {
-        PIXEL = GL_FRAGMENT_SHADER,
-        VERTEX = GL_VERTEX_SHADER,
-        GEOMETRY = GL_GEOMETRY_SHADER,
-        COMPUTE = GL_COMPUTE_SHADER,
-        TESS_CONTROL = GL_TESS_CONTROL_SHADER,
-        TESS_EVALUATION = GL_TESS_EVALUATION_SHADER
-    };
-    static GFXShader Create();
-    static GFXShader Create(File file);
-    GFXShader::GFXShader() : program(0){}
-    void Compile(unsigned int type, std::string source);
-    void Link();
-    void Use();
-    void Free();
+    GFXShader : shader(0) {}
+    void Compile(std::string source);
+    void Bind();
+
     void Uniform(std::string& name, float value);
     void Uniform(std::string& name, vec2f& value);
     void Uniform(std::string& name, vec3f& value);
@@ -46,9 +38,52 @@ public:
     void Uniform(std::string& name, vec4ui& value);
     void Uniform(std::string& name, mat3f& value);
     void Uniform(std::string& name, mat4f& value);
+protected:
+    unsigned int shader;
+};
+
+class GFXShaderVertex : public GFXShader
+{
+public:
+    //Required by RESOURCE SYSTEM
+    READERS
+    (
+        (ReadVERT) "vert"
+    )
+    bool ReadVERT(File file);
+    
+    static GFXShaderVertex Create()
+    {
+        GFXShaderVertex gfxshader;
+        gfxshader.shader = glCreateShader(GL_VERTEX_SHADER);
+        return gfxshader;
+    }
+    //
+    
+    void Bind();
 private:
-    std::map<unsigned int, unsigned int> shaders;
-    unsigned int program;
+};
+
+class GFXShaderPixel : public GFXShader
+{
+public:
+    //Required by RESOURCE SYSTEM
+    READERS
+    (
+        (ReadFRAG) "frag"
+    )
+    bool ReadFRAG(File file);
+    
+    static GFXShaderPixel Create()
+    {
+        GFXShaderPixel gfxshader;
+        gfxshader.shader = glCreateShader(GL_FRAGMENT_SHADER);
+        return gfxshader;
+    }
+    //
+    
+    void Bind();
+private:
 };
 
 #endif
