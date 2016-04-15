@@ -101,6 +101,10 @@ int main()
     // Mockups
     //=======================================================
     
+    GFXMaterial material;
+    
+    //material = GFXTexture2D::Create() + GFXRGBA(1.0f, 0.0f, 0.0f, 1.0f);
+    material = material.Normal();
     
     //=======================================================
     float time = 0;
