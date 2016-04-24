@@ -14,24 +14,20 @@ public:
         start_time = GetTickCount();
         
         camera = Camera::Create(&scene);
-        mesh = Resource<GFXMesh>::Get("cube");
         
-        File shader_file = File::Open("data\\shader140.glsl", File::READ);
-        shader = GFXShader::Create(shader_file);
+        mesh = Resource<GFXMesh>::Get("cube");
+        shader = Resource<GFXMesh>::Get("shader");
         
         perspective_ = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
         camera_transform.Translate(0.0f, -0.0f, -2.0f);
         
-        ResHdl<GFXShaderVertex> vert_shader = Resource<GFXShaderVertex>::Get("transform3d");
-        ResHdl<GFXShaderPixel> frag_shader = Resource<GFXShaderPixel>::Get("textured");
+        
     }
     void OnSwitch()
     {
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         mesh->Bind();
-        shader.Use();
-        //vert_shader->Use();
-        //pixel_shader->Use();
+        shader->Use();
     }
     void OnUpdate()
     {
@@ -48,11 +44,11 @@ public:
     void OnRender()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        shader.Uniform(std::string("perspective"), perspective_);
-        shader.Uniform(std::string("view"), camera_transform.GetTransform());
-        shader.Uniform(std::string("model"), transform.GetTransform());
-        //shader.Uniform(std::string("time"), time);
-        shader.Uniform(std::string("tex"), 0);
+        shader->Uniform(std::string("perspective"), perspective_);
+        shader->Uniform(std::string("view"), camera_transform.GetTransform());
+        shader->Uniform(std::string("model"), transform.GetTransform());
+        shader->Uniform(std::string("time"), time);
+        shader->Uniform(std::string("tex"), 0);
         mesh->Render();
     }
     void OnCleanup()
@@ -67,12 +63,10 @@ private:
     Scene scene;
     Camera* camera;
     ResHdl<GFXMesh> mesh;
-    ResHdl<GFXShader> vert_shader;
-    ResHdl<GFXShader> pixel_shader;
+    ResHdl<GFXShader> shader;
     Transform camera_transform;
     Transform transform;
     mat4f perspective_;
-    GFXShader shader;
 };
 
 #endif
