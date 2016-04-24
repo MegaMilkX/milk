@@ -42,7 +42,7 @@ void GFXShader::Compile(std::string source)
 
 void GFXShader::Bind()
 {
-    GLProgram::Bind(this);
+    
 }
 
 void GFXShader::Uniform(std::string& name, float value){ glUniform1f(glGetUniformLocation(program, name.c_str()), value); }
