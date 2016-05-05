@@ -43,18 +43,16 @@ cl /I F:\libs\openssl-1.0.2d-vs2013\include ^
 ..\src\gfx.cpp ^
 ..\src\geometrybuffer.cpp ^
 ..\src\gfxmesh.cpp ^
+..\src\gfxs_atom.cpp ^
+..\src\gfxs_slot.cpp ^
+..\src\gfxs_stage.cpp ^
 ..\src\gfxshader.cpp ^
 ..\src\gfxtexture2d.cpp ^
 ..\src\gfxtarget.cpp ^
 ..\src\window.cpp ^
 ..\src\input.cpp ^
 ..\src\camera.cpp ^
-..\src\renderable.cpp ^
-..\src\resourcereaders\reader_anim.cpp ^
-..\src\resourcereaders\reader_frag.cpp ^
-..\src\resourcereaders\reader_r3d.cpp ^
-..\src\resourcereaders\reader_tga.cpp ^
-..\src\resourcereaders\reader_vert.cpp
+..\src\renderable.cpp
 lib /out:"..\lib\libgame.lib" ^
 main.obj ^
 file.obj ^
@@ -65,6 +63,9 @@ glextutil.obj ^
 gfx.obj ^
 geometrybuffer.obj ^
 gfxmesh.obj ^
+gfxs_atom.obj ^
+gfxs_slot.obj ^
+gfxs_stage.obj ^
 gfxshader.obj ^
 gfxtexture2d.obj ^
 gfxtarget.obj ^

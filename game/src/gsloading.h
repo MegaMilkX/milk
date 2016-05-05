@@ -16,18 +16,27 @@ public:
         camera = Camera::Create(&scene);
         
         mesh = Resource<GFXMesh>::Get("cube");
-        shader = Resource<GFXMesh>::Get("shader");
+        //shader = Resource<GFXMesh>::Get("shader");
         
         perspective_ = ::perspective(1.5f, 16.0f/9.0f, 0.1f, 100.0f);
         camera_transform.Translate(0.0f, -0.0f, -2.0f);
         
         
+        GFXS::Position3D pos3d;
+        pos3d.pos = GFXS::Position();
+        shader = pos3d;
+        GFXS::Texture2DColor tex2dcol;
+        tex2dcol.texture_sampler = GFXS::Texture2D();
+        tex2dcol.uv = GFXS::UV();
+        //shader = tex2dcol;
+        shader = GFXS::RGBA();
+        shader.Compile();
     }
     void OnSwitch()
     {
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         mesh->Bind();
-        shader->Use();
+        shader.Bind();
     }
     void OnUpdate()
     {
@@ -44,11 +53,6 @@ public:
     void OnRender()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        shader->Uniform(std::string("perspective"), perspective_);
-        shader->Uniform(std::string("view"), camera_transform.GetTransform());
-        shader->Uniform(std::string("model"), transform.GetTransform());
-        shader->Uniform(std::string("time"), time);
-        shader->Uniform(std::string("tex"), 0);
         mesh->Render();
     }
     void OnCleanup()
@@ -63,10 +67,11 @@ private:
     Scene scene;
     Camera* camera;
     ResHdl<GFXMesh> mesh;
-    ResHdl<GFXShader> shader;
     Transform camera_transform;
     Transform transform;
     mat4f perspective_;
+    
+    GFXShader shader;
 };
 
 #endif

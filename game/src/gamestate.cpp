@@ -15,8 +15,7 @@ bool GameState::Init()
     }
     
     Resource<GFXMesh>::AddSearchPath("data\\meshes");
-    Resource<GFXShaderVertex>::AddSearchPath("data\\shaders");
-    Resource<GFXShaderPixel>::AddSearchPath("data\\shaders");
+    Resource<GFXShader>::AddSearchPath("data\\shaders");
     Resource<GFXTexture2D>::AddSearchPath("data\\textures");
     
     return true;
