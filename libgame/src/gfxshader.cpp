@@ -47,6 +47,9 @@ bool GFXShader::Compile()
 void GFXShader::Bind()
 {
     glUseProgram(program);
+    
+    // TODO:
+    // Send ALL uniform data to the shader
 }
 
 unsigned int GFXShader::CompileStage(GFXS::Stage& stage, unsigned int type)
